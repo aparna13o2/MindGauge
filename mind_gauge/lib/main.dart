@@ -44,7 +44,7 @@ class MockQuestionnaireService {
       QuestionnaireData("Qn 5. Starting lots more projects than usual or doing more risky things than usual?"),
       QuestionnaireData("Qn 6. Feeling nervous, anxious, frightened, worried, or on edge?"),
       QuestionnaireData("Qn 7. Feeling panic or being frightened?"),
-      QuestionnaireData("Qn 8. Avoiding situations that make you anx.ious?"),
+      QuestionnaireData("Qn 8. Avoiding situations that make you anxious?"),
       QuestionnaireData("Qn 9. Unexplained aches and pains (e.g., head, back, joints, abdomen, legs)?"),
       QuestionnaireData("Qn 10.Feeling that your illnesses are not being taken seriously enough?"),
       QuestionnaireData("Qn 11.Thoughts of actually hurting yourself?"),
@@ -113,6 +113,7 @@ class MindGaugeApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'MindGauge',
       theme: ThemeData(
         primaryColor: AppColors.primary,
