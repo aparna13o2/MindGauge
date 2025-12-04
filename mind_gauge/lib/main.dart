@@ -1025,9 +1025,10 @@ class DomainResultCard extends StatelessWidget {
             StyledButton(
               text: 'TAKE ${score.domain} LEVEL 2 MEASURE',
               onPressed: () {
-                // Mock navigation/action for Level 2
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('Starting Level 2 assessment: ${score.level2Measure}')),
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => Level2QuestionnaireScreen(domainScore: score),
+                  ),
                 );
               },
               color: AppColors.secondary,
@@ -1042,6 +1043,54 @@ class DomainResultCard extends StatelessWidget {
               ),
             ),
         ],
+      ),
+    );
+  }
+}
+// NEW SCREEN FOR LEVEL2 QUESTIONNAIRE:
+class Level2QuestionnaireScreen extends StatelessWidget {
+  final DomainScore domainScore;
+  const Level2QuestionnaireScreen({super.key, required this.domainScore});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('${domainScore.domainName} Level 2 Assessment'),
+        backgroundColor: AppColors.secondary,
+        foregroundColor: Colors.white,
+      ),
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(30.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'Starting Follow-up for: ${domainScore.domainName}',
+                textAlign: TextAlign.center,
+                style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: AppColors.secondary),
+              ),
+              const SizedBox(height: 20),
+              const Text(
+                'This screen would load the specific Level 2 Measure:',
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 16),
+              ),
+              Text(
+                domainScore.level2Measure,
+                textAlign: TextAlign.center,
+                style: const TextStyle(fontSize: 16, fontStyle: FontStyle.italic),
+              ),
+              const SizedBox(height: 50),
+              StyledButton(
+                text: 'Back to Results',
+                onPressed: () => Navigator.of(context).pop(),
+                color: AppColors.primary,
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
