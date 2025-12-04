@@ -35,14 +35,42 @@ class DomainMetadata {
 
  const DomainMetadata(this.domainName, this.thresholdScore, this.level2Measure);
 }
+// NEW: Abstract class defining common questionnaire data fields
+abstract class BaseQuestionnaireData {
+  final String domain;
+  final String questionNumber;
+  final String questionText;
+  double score;
 
-class QuestionnaireData {
- final String domain;
- final String questionNumber;
- final String questionText;
- double score = 0.0; // Changed to double to match Slider value
+  BaseQuestionnaireData({
+    required this.domain, 
+    required this.questionNumber, 
+    required this.questionText, 
+    required this.score,
+  });}
 
- QuestionnaireData(this.domain, this.questionNumber, this.questionText);
+// QuestionnaireData (Around line 51):
+// OLD: QuestionnaireData(super.domain, super.questionNumber, super.questionText) : super(score: 0.0);
+// NEW:
+class QuestionnaireData extends BaseQuestionnaireData {
+ QuestionnaireData(String domain, String questionNumber, String questionText) : super(
+    domain: domain, 
+    questionNumber: questionNumber, 
+    questionText: questionText, 
+    score: 0.0
+  );
+}
+
+// Level2QuestionnaireData (Around line 56):
+// OLD: Level2QuestionnaireData(super.domain, super.questionNumber, super.questionText) : super(score: 0.0);
+// NEW:
+class Level2QuestionnaireData extends BaseQuestionnaireData {
+  Level2QuestionnaireData(String domain, String questionNumber, String questionText) : super(
+    domain: domain, 
+    questionNumber: questionNumber, 
+    questionText: questionText, 
+    score: 0.0
+  );
 }
 
 // Data structure to hold the results of the questionnaire after scoring.
@@ -205,8 +233,29 @@ class MockQuestionnaireService {
   // Return the list of domains requiring further inquiry.
   return results;
  }
+  static final Map<String, List<Level2QuestionnaireData>> _level2Questions = {
+    "Depression":  [
+      // Level 2 questions for Depression (using the new class)
+      Level2QuestionnaireData("I", "D1", "I felt depressed."),
+      Level2QuestionnaireData("I", "D2", "I felt worthless."),
+      Level2QuestionnaireData("I", "D3", "I felt sad."),
+      Level2QuestionnaireData("I", "D4", "I felt hopeless."),
+      Level2QuestionnaireData("I", "D5", "I felt like a failure."),
+      Level2QuestionnaireData("I", "D6", "I felt that I have no future."),
+      Level2QuestionnaireData("I", "D7", "I felt helpless."),
+      Level2QuestionnaireData("I", "D8", "I felt discouraged."),
+    ],
+    "Anger":  [
+      // Level 2 questions for Depression (using the new class)
+      Level2QuestionnaireData("II", "A1", "In the past seven days were you irritated more than people knew?"),
+      Level2QuestionnaireData("II", "A2", "In the past seven days, have you felt angry?"),
+      Level2QuestionnaireData("II", "A3", " In the past seven days, have you felt like you were ready to explode?"),
+      Level2QuestionnaireData("II", "A4", "In the past seven days, were you grouchy?"),
+      Level2QuestionnaireData("II", "A5", "In the past seven days, have you felt annoyed?"),
+      
+    ],
+ };
 }
-
 
 // --- CONSTANTS & STYLES ---
 
@@ -721,8 +770,9 @@ class MainDashboard extends StatelessWidget {
 
 
 // 6. QUESTIONNAIRE WIDGET & SCREEN
+// MODIFIED: Accepts the abstract BaseQuestionnaireData type
 class QuestionnaireItem extends StatefulWidget {
- final QuestionnaireData data;
+ final BaseQuestionnaireData data; 
  final int index;
  const QuestionnaireItem({super.key, required this.data, required this.index});
 
@@ -1048,48 +1098,83 @@ class DomainResultCard extends StatelessWidget {
   }
 }
 // NEW SCREEN FOR LEVEL2 QUESTIONNAIRE:
-class Level2QuestionnaireScreen extends StatelessWidget {
+// UPDATED SCREEN: Now displays the actual Level 2 Questionnaire
+class Level2QuestionnaireScreen extends StatefulWidget {
   final DomainScore domainScore;
   const Level2QuestionnaireScreen({super.key, required this.domainScore});
 
   @override
+  State<Level2QuestionnaireScreen> createState() => _Level2QuestionnaireScreenState();
+}
+
+class _Level2QuestionnaireScreenState extends State<Level2QuestionnaireScreen> {
+  // Fetch the questions specific to this domain
+  late final List<Level2QuestionnaireData> _questions;  
+  @override
+  void initState() {
+    super.initState();
+    // Use the domainName (e.g., "Depression") to fetch the corresponding questions
+    _questions = MockQuestionnaireService._level2Questions[widget.domainScore.domainName] as List<Level2QuestionnaireData>? ?? [];    
+    if (_questions.isEmpty) {
+      // Handle case where no Level 2 measure is defined in the mock data
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Error: No Level 2 questions found for this domain.")),
+        );
+      });
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
+    if (_questions.isEmpty) {
+      return Scaffold(
+        appBar: AppBar(title: Text('${widget.domainScore.domainName} Level 2'), backgroundColor: AppColors.secondary),
+        body: const Center(child: Text("Level 2 Questionnaire not available (Mock Data Error).")),
+      );
+    }
+    
     return Scaffold(
       appBar: AppBar(
-        title: Text('${domainScore.domainName} Level 2 Assessment'),
+        title: Text('${widget.domainScore.domainName} Level 2 Assessment'),
         backgroundColor: AppColors.secondary,
         foregroundColor: Colors.white,
       ),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(30.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                'Starting Follow-up for: ${domainScore.domainName}',
-                textAlign: TextAlign.center,
-                style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: AppColors.secondary),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(20.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Follow-up: ${widget.domainScore.level2Measure}',
+              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: AppColors.secondary),
+            ),
+            const SizedBox(height: 10),
+            Text(
+              'Your Level 1 score was ${widget.domainScore.highestScore} (${widget.domainScore.severity}). Please complete this focused Level 2 measure:',
+              style: const TextStyle(fontSize: 16),
+            ),
+            const Divider(height: 30),
+
+            // Display the Level 2 Questionnaire items
+            ..._questions.asMap().entries.map((entry) =>
+                QuestionnaireItem(data: entry.value, index: entry.key + 1)),
+            
+            const SizedBox(height: 40),
+            Center(
+              child: StyledButton(
+                text: 'SUBMIT LEVEL 2 ASSESSMENT',
+                onPressed: () {
+                  // TODO: Implement Level 2 Scoring and Result Display
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Level 2 Submission Mocked. Implement scoring logic here.')),
+                  );
+                },
+                color: AppColors.secondary,
               ),
-              const SizedBox(height: 20),
-              const Text(
-                'This screen would load the specific Level 2 Measure:',
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 16),
-              ),
-              Text(
-                domainScore.level2Measure,
-                textAlign: TextAlign.center,
-                style: const TextStyle(fontSize: 16, fontStyle: FontStyle.italic),
-              ),
-              const SizedBox(height: 50),
-              StyledButton(
-                text: 'Back to Results',
-                onPressed: () => Navigator.of(context).pop(),
-                color: AppColors.primary,
-              ),
-            ],
-          ),
+            ),
+            const SizedBox(height: 50),
+          ],
         ),
       ),
     );
