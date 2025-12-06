@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
+import 'package:mind_gauge/services/api_service.dart';
 
 // --- MOCK SERVICE LAYER AND DATA STRUCTURES ---
 class UserProfile {
@@ -558,36 +559,32 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
- final MockAuthService _authService = MockAuthService();
+ final ApiService _authService = ApiService();
  final TextEditingController _emailController = TextEditingController();
  final TextEditingController _passwordController = TextEditingController();
  bool _isLoading = false;
 
- void _handleLogin() async {
+void _handleLogin() async {
   setState(() { _isLoading = true; });
 
-  final user = await _authService.login(
-   _emailController.text,
-   _passwordController.text,
+  final result = await _authService.login(
+    _emailController.text,
+    _passwordController.text,
   );
 
   setState(() { _isLoading = false; });
 
-  if (user != null) {
-   if (mounted) {
-    // Navigate to Questionnaire
+  if (result != null && result["status"] == "success") {
     Navigator.of(context).pushReplacement(
-     MaterialPageRoute(builder: (context) => const MainDashboard()),
+      MaterialPageRoute(builder: (_) => const MainDashboard()),
     );
-   }
   } else {
-   if (mounted) {
     ScaffoldMessenger.of(context).showSnackBar(
-     const SnackBar(content: Text('Login failed. Check credentials.')),
+      const SnackBar(content: Text('Login failed')),
     );
-   }
   }
- }
+}
+
 
  @override
  Widget build(BuildContext context) {
@@ -661,12 +658,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
   setState(() { _isLoading = true; });
 
   final success = await _authService.register(
-   _emailController.text,
-   _nameController.text,
-   _ageController.text,
-   _passwordController.text,
-   _locationController.text,
-  );
+  _emailController.text,
+  _nameController.text,
+  _ageController.text,
+  _passwordController.text,
+  _locationController.text,
+);
+
 
   setState(() { _isLoading = false; });
 
