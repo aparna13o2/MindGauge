@@ -254,6 +254,66 @@ class MockQuestionnaireService {
       Level2QuestionnaireData("II", "A5", "In the past seven days, have you felt annoyed?"),
       
     ],
+    "Anxiety": [
+      Level2QuestionnaireData("IV", "AN1", "In the past seven days, have you felt fearful?"),
+      Level2QuestionnaireData("IV", "AN2", "In the past seven days, have you felt anxious?"),
+      Level2QuestionnaireData("IV", "AN3", "In the past seven days, have you felt worried?"),
+      Level2QuestionnaireData("IV", "AN4", "In the past seven days, have you found it hard to focus on anything other than my anxiety?"),
+      Level2QuestionnaireData("IV", "AN5", "In the past seven days, have you felt nervous?"),
+      Level2QuestionnaireData("IV", "AN6", "In the past seven days, have you felt uneasy?"),
+      Level2QuestionnaireData("IV", "AN7", "In the past seven days, have you felt tense?"),
+
+    ],
+    "Somatic Symptoms": [
+      Level2QuestionnaireData("V", "S1", "During the past 7 days, how much have you been bothered by Stomach Pain?"),
+      Level2QuestionnaireData("V", "S2", "During the past 7 days, how much have you been bothered by Back Pain?"),
+      Level2QuestionnaireData("V", "S3", "During the past 7 days, how much have you been bothered by Pain in your arms,legs,or joints(knees,hips,etc.)?"),
+      Level2QuestionnaireData("V", "S4", "During the past 7 days, how much have you been bothered by  Menstrual cramps or other problems with your periods(WOMEN ONLY)?"),
+      Level2QuestionnaireData("V", "S5", "During the past 7 days, how much have you been bothered by Headaches?"),
+      Level2QuestionnaireData("V", "S6", " During the past 7 days, how much have you been bothered by Chest Pain?"),
+      Level2QuestionnaireData("V", "S7", "During the past 7 days, how much have you been bothered by Dizziness?"),
+      Level2QuestionnaireData("V", "S8", "During the past 7 days, how much have you been bothered by Fainting Spells?"),
+      Level2QuestionnaireData("V", "S9", "During the past 7 days, how much have you been bothered by Feeling your heart pound or race?"),
+      Level2QuestionnaireData("V", "S10", " During the past 7 days, how much have you been bothered by Shortness of breath?"),
+      Level2QuestionnaireData("V", "S11", "During the past 7 days, how much have you been bothered by pain or problems during sexual intercourse?"),
+      Level2QuestionnaireData("V", "S12", "During the past 7 days, how much have you been bothered by constipation,loose bowels or diarrhea?"),
+      Level2QuestionnaireData("V", "S13", " During the past 7 days, how much have you been bothered by Nausea,gas or indigestion?"),
+      Level2QuestionnaireData("V", "S14", "During the past 7 days, how much have you been bothered by feeling tired or having low energy?"),
+      Level2QuestionnaireData("V", "S15", "During the past 7 days, how much have you been bothered by trouble sleeping?"),
+
+    ],
+    "Sleep Disturbance": [
+      Level2QuestionnaireData("VIII", "SD1", "In the past seven days, was your sleep restless?"),
+      Level2QuestionnaireData("VIII", "SD2", "In the past seven days, were you satisfied with your sleep?"),
+      Level2QuestionnaireData("VIII", "SD3", "In the past seven days, was your sleep refreshing?"),
+      Level2QuestionnaireData("VIII", "SD4", "In the past seven days, have you had difficulty falling asleep?"),
+      Level2QuestionnaireData("VIII", "SD5", "In the past seven days, have you had trouble staying asleep?"),
+      Level2QuestionnaireData("VIII", "SD6", "In the past seven days, have you had trouble sleeping"),
+      Level2QuestionnaireData("VIII", "SD7", "In the past seven days, have you got enough sleep?"),
+      Level2QuestionnaireData("VIII", "SD8", " In the past seven days, how was your sleep quality?"),
+      
+
+    ],
+    "Repetitive thoughts and behaviours": [
+      Level2QuestionnaireData("X", "R1", "On average, how much time is occupied  by unwanted thoughts or behaviours each day?"),
+      Level2QuestionnaireData("X", "R2", " How much distress do these thoughts or behaviours cause you?"),
+      Level2QuestionnaireData("X", "R3", "How hard is it for you to control these thoughts or behaviours?"),
+      Level2QuestionnaireData("X", "R4", "How much do these thoughts or behaviours cause you to avoid doing anything , going any place, or being with anyone?"),
+      Level2QuestionnaireData("X", "R5", "How much do these thoughts or behaviours interfere with school,work,or your social or family life?"),
+    ],
+
+    "Substance Use": [
+      Level2QuestionnaireData("XIII", "SU1", "During the past TWO WEEKS, about how often did you use Painkillers(like Vicodin)  ON YOUR OWN, that is, without a doctor’s prescription, in greater amounts or longer than prescribed?"),
+      Level2QuestionnaireData("XIII", "SU2", "During the past TWO WEEKS, about how often did you use Stimulants(like Ritalin,Adderall)  ON YOUR OWN, that is, without a doctor’s prescription, in greater amounts or longer than prescribed?"),
+      Level2QuestionnaireData("XIII", "SU2", "During the past TWO WEEKS, about how often did you use Sedatives or tranquilizers (like sleeping pills or Valium)  ON YOUR OWN, that is, without a doctor’s prescription, in greater amounts or longer than prescribed?"),
+      Level2QuestionnaireData("XIII", "SU2", "During the past TWO WEEKS, about how often did you use Marijuana?"),
+      Level2QuestionnaireData("XIII", "SU2", "During the past TWO WEEKS, about how often did you use Cocaine or crack?"),
+      Level2QuestionnaireData("XIII", "SU2", "During the past TWO WEEKS, about how often did you use Club drugs (like ecstasy)?"),
+      Level2QuestionnaireData("XIII", "SU2", "During the past TWO WEEKS, about how often did you use Hallucinogens (like LSD)?"),
+      Level2QuestionnaireData("XIII", "SU2", "During the past TWO WEEKS, about how often did you use Heroin?"),
+      Level2QuestionnaireData("XIII", "SU2", "During the past TWO WEEKS, about how often did you use Inhalants or solvents (like glue)?"),
+      Level2QuestionnaireData("XIII", "SU2", "During the past TWO WEEKS, about how often did you use Methamphetamine (like speed)"),
+    ],
  };
 }
 
