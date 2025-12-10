@@ -397,7 +397,7 @@ const StyledButton({
 @override
 Widget build(BuildContext context) {
  return Container(
- width: 280,
+
  height: 50,
  decoration: BoxDecoration(
   boxShadow: [
@@ -410,6 +410,8 @@ Widget build(BuildContext context) {
   ],
   borderRadius: BorderRadius.circular(25),
  ),
+ child: ConstrainedBox( // NEW: Use ConstrainedBox to ensure a minimum width
+    constraints: const BoxConstraints(minWidth: 280),
  child: ElevatedButton(
   onPressed: onPressed,
   style: ElevatedButton.styleFrom(
@@ -421,14 +423,18 @@ Widget build(BuildContext context) {
   padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
   elevation: 0, // Remove default elevation
   ),
-  child: Text(
-  text,
-  style: const TextStyle(
-   fontSize: 18,
-   fontWeight: FontWeight.bold,
-   letterSpacing: 1.0,
+  child: FittedBox( // NEW: Wrap in FittedBox
+    fit: BoxFit.scaleDown, // Scale down only if needed
+    child: Text(
+      text,
+      style: const TextStyle(
+        fontSize: 18,
+        fontWeight: FontWeight.bold,
+        letterSpacing: 1.0,
+      ),
+    ),
   ),
-  ),
+ ),
  ),
  );
 }
@@ -874,46 +880,145 @@ Widget build(BuildContext context) {
 }
 
 // 5. MAIN DASHBOARD (Temporary placeholder screen after login/register)
-class MainDashboard extends StatelessWidget {
-const MainDashboard({super.key});
+// 5. MAIN DASHBOARD
+class MainDashboard extends StatefulWidget {
+  const MainDashboard({super.key});
 
-@override
-Widget build(BuildContext context) {
- return Scaffold(
- appBar: AppBar(
-  title: const Text('MindGauge Dashboard'),
-  backgroundColor: AppColors.primary,
-  foregroundColor: Colors.white,
- ),
- body: Center(
-  child: Column(
-  mainAxisAlignment: MainAxisAlignment.center,
-  children: [
-   const Text(
-   'Welcome, User!',
-   style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-   ),
-   const SizedBox(height: 20),
-   StyledButton(
-   text: 'Start Questionnaire',
-   onPressed: () {
-    Navigator.of(context).push(
-    MaterialPageRoute(builder: (context) => const QuestionnaireScreen()),
+  @override
+  State<MainDashboard> createState() => _MainDashboardState();
+}
+
+class _MainDashboardState extends State<MainDashboard> {
+  final MockSentimentService _sentimentService = MockSentimentService();
+  DateTime _focusedDay = DateTime(2025, 10, 13); // Start on Oct 13, 2025 as per image
+  DateTime _selectedDay = DateTime(2025, 10, 13);
+  List<JournalEntry> _entries = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _loadEntries();
+  }
+
+  void _loadEntries() {
+    setState(() {
+      _entries = _sentimentService.getAllEntries();
+    });
+  }
+  
+  // Navigation for the floating journal button
+  void _openJournalingScreen(DateTime date) async {
+    final entry = await Navigator.of(context).push<JournalEntry>(
+      MaterialPageRoute(
+        builder: (context) => JournalingScreen(
+          date: date,
+          initialEntry: _sentimentService.getEntry(date),
+        ),
+      ),
     );
-   },
-   ),
-   const SizedBox(height: 20),
-   const Text(
-   'This is the main navigation hub.',
-   style: TextStyle(color: AppColors.secondary),
-   ),
-  ],
-  ),
- ),
- );
-}
-}
 
+    if (entry != null) {
+      _sentimentService.saveEntry(entry);
+      _loadEntries(); // Refresh data after saving
+      setState(() {
+        _selectedDay = entry.date;
+        _focusedDay = entry.date;
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // Find the journal entry for the currently selected day
+    final JournalEntry? currentEntry = _sentimentService.getEntry(_selectedDay);
+
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('MINDGAUGE'),
+        backgroundColor: AppColors.background,
+        foregroundColor: AppColors.secondary,
+        elevation: 0,
+        actions: const [
+          // This is the hamburger menu that opens the custom drawer
+          CustomDrawerButton(), 
+        ],
+      ),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // --- CALENDAR SECTION ---
+            const Text(
+              'CALENDAR',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: AppColors.secondary),
+            ),
+            const SizedBox(height: 10),
+            SentimentCalendar(
+              focusedDay: _focusedDay,
+              selectedDay: _selectedDay,
+              journalEntries: _entries,
+              onDaySelected: (selectedDay, focusedDay) {
+                setState(() {
+                  _selectedDay = selectedDay;
+                  _focusedDay = focusedDay; 
+                });
+              },
+            ),
+
+            // --- JOURNAL SNIPPET SECTION ---
+            const SizedBox(height: 30),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    const Text(
+                      'Journal',
+                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: AppColors.secondary),
+                    ),
+                    const SizedBox(width: 8),
+                    // Icon that matches the screenshot
+                    Icon(Icons.calendar_month, color: AppColors.secondary.withOpacity(0.7)), 
+                  ],
+                ),
+                Text(
+                  '${_selectedDay.day}/${_selectedDay.month}',
+                  style: const TextStyle(fontSize: 16, color: AppColors.text),
+                ),
+              ],
+            ),
+            const SizedBox(height: 10),
+            JournalSnippetCard(
+              entry: currentEntry,
+              selectedDate: _selectedDay,
+              onTap: () => _openJournalingScreen(_selectedDay),
+            ),
+            const SizedBox(height: 30), // Reduce space before this button
+            Center(
+              child: StyledButton(
+                text: 'Start Symptom Check-In', // Clear button label
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => const QuestionnaireScreen()),
+                   );
+                },
+                color: AppColors.primary,
+                shadowColor: AppColors.primary.withOpacity(0.5),
+              ),
+            ),
+            const SizedBox(height: 50),
+          ],
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => _openJournalingScreen(DateTime.now()), // Journal for today
+        backgroundColor: AppColors.primary,
+        child: const Icon(Icons.add, color: Colors.white),
+      ),
+    );
+  }
+}
 
 // 6. QUESTIONNAIRE WIDGET & SCREEN
 // MODIFIED: Accepts the abstract BaseQuestionnaireData type
@@ -1329,4 +1434,545 @@ class _Level2QuestionnaireScreenState extends State<Level2QuestionnaireScreen> {
    ),
   );
  }
+}
+// --- NEW DATA STRUCTURES FOR JOURNALING/SENTIMENT ---
+
+class SentimentResult {
+  final String emoji;
+  final double score; // e.g., -1.0 (very negative) to 1.0 (very positive)
+  final String description;
+
+  const SentimentResult(this.emoji, this.score, this.description);
+}
+
+class JournalEntry {
+  final DateTime date;
+  final String text;
+  final SentimentResult sentiment;
+
+  JournalEntry({
+    required this.date,
+    required this.text,
+    required this.sentiment,
+  });
+}
+
+// --- MOCK SERVICE LAYER FOR JOURNALING/SENTIMENT ---
+
+class MockSentimentService {
+  // Simple deterministic way to mock sentiment analysis
+  SentimentResult analyze(String text) {
+    if (text.isEmpty) {
+      return const SentimentResult("⚪", 0.0, "No entry");
+    }
+    
+    // Simple mock logic based on text length and keyword
+    final lengthFactor = min(text.length / 100, 1.0);
+    final isNegative = text.toLowerCase().contains('down') || text.toLowerCase().contains('overwhelming') || text.toLowerCase().contains('sad');
+    final isPositive = text.toLowerCase().contains('happy') || text.toLowerCase().contains('great') || text.toLowerCase().contains('fun');
+
+    if (isNegative) {
+      return const SentimentResult("😞", -0.7, "Feeling low");
+    } else if (isPositive) {
+      return const SentimentResult("😊", 0.8, "Positive mood");
+    }
+    
+    // Random sentiment for other cases (to show variety in the calendar)
+    final randomScore = Random().nextDouble() * 2 - 1; // Range -1.0 to 1.0
+    if (randomScore > 0.6) return const SentimentResult("😄", 0.9, "Very happy");
+    if (randomScore > 0.2) return const SentimentResult("🙂", 0.4, "Content");
+    if (randomScore > -0.2) return const SentimentResult("😐", 0.0, "Neutral");
+    if (randomScore > -0.6) return const SentimentResult("😟", -0.4, "A bit worried");
+    return const SentimentResult("😢", -0.8, "Feeling sad");
+  }
+
+  // Mock function to retrieve a specific entry
+  JournalEntry? getEntry(DateTime date) {
+    // Mock Data based on the provided calendar image
+    final mockEntries = _getMockData();
+    try {
+      return mockEntries.firstWhere(
+          (e) => e.date.year == date.year && e.date.month == date.month && e.date.day == date.day);
+    } catch (e) {
+      return null;
+    }
+  }
+
+  // Mock persistence: In a real app, this would be a database or shared preferences.
+  final List<JournalEntry> _persistedEntries = _getMockData(); 
+
+  // Function to save an entry
+  void saveEntry(JournalEntry entry) {
+    // Remove existing entry for the same day (to allow updating)
+    _persistedEntries.removeWhere((e) => e.date.isSameDay(entry.date));
+    _persistedEntries.add(entry);
+    _persistedEntries.sort((a, b) => b.date.compareTo(a.date)); // Sort by newest first
+  }
+
+  // Function to get all entries (for the main dashboard view)
+  List<JournalEntry> getAllEntries() {
+    return List.unmodifiable(_persistedEntries);
+  }
+
+  // Mock data to match the screenshot for October 2025
+  static List<JournalEntry> _getMockData() {
+    return [
+      JournalEntry(
+          date: DateTime(2025, 10, 2),
+          text: "I felt zero motivation. Stayed inside all day, the hours just melting into one another. The feeling of 'can't start' was overwhelming.",
+          sentiment: const SentimentResult("😞", -0.7, "Feeling low")),
+      JournalEntry(
+          date: DateTime(2025, 10, 3),
+          text: "Had a small win today by cleaning my room. Felt good to accomplish something. Happy to see the sun.",
+          sentiment: const SentimentResult("😊", 0.8, "Positive mood")),
+      JournalEntry(
+          date: DateTime(2025, 10, 4),
+          text: "Very neutral day. Just worked and watched TV. No strong feelings either way.",
+          sentiment: const SentimentResult("😐", 0.0, "Neutral")),
+      JournalEntry(
+          date: DateTime(2025, 10, 7),
+          text: "Anxiety was high today. Worried about an upcoming presentation.",
+          sentiment: const SentimentResult("😟", -0.4, "A bit worried")),
+      JournalEntry(
+          date: DateTime(2025, 10, 13),
+          text: "An important day. Met with a new professional.",
+          sentiment: const SentimentResult("🙂", 0.4, "Content")),
+    ];
+  }
+}
+
+// Extension to help compare DateTime objects by date only
+extension DateOnlyCompare on DateTime {
+  bool isSameDay(DateTime other) {
+    return year == other.year && month == other.month && day == other.day;
+  }
+}
+// --- NEW WIDGETS FOR DASHBOARD ---
+
+class SentimentCalendar extends StatelessWidget {
+  final DateTime focusedDay;
+  final DateTime selectedDay;
+  final List<JournalEntry> journalEntries;
+  final Function(DateTime selectedDay, DateTime focusedDay) onDaySelected;
+
+  const SentimentCalendar({
+    super.key,
+    required this.focusedDay,
+    required this.selectedDay,
+    required this.journalEntries,
+    required this.onDaySelected,
+  });
+
+  // Simplified custom logic to match the look of the screenshot
+  // A real calendar package (like table_calendar) would be used here.
+  @override
+  Widget build(BuildContext context) {
+    // Current date is 2025/10/13
+    final now = DateTime(2025, 10, 1);
+    final daysInMonth = 31;
+    final firstDayOfWeek = 3; // October 1, 2025 is a Wednesday (3rd day: 1-Sun, 2-Mon, 3-Tue, 4-Wed)
+
+    // Simplified list of week day names
+    const List<String> weekDays = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
+
+    // Map to quickly look up emojis for the current month
+    final Map<int, String> emojiMap = {
+      for (var entry in journalEntries.where((e) => e.date.month == focusedDay.month)) entry.date.day: entry.sentiment.emoji
+    };
+
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: AppColors.cardColor,
+        borderRadius: BorderRadius.circular(15),
+      ),
+      child: Column(
+        children: [
+          // Month Header
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'October, ${focusedDay.year}',
+                  style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                const Row(
+                  children: [
+                    Icon(Icons.arrow_drop_up, color: AppColors.secondary, size: 24),
+                    Icon(Icons.arrow_drop_down, color: AppColors.secondary, size: 24),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          const Divider(thickness: 1, height: 10),
+          
+          // Weekday Headers
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: weekDays
+                .map((day) => Expanded(
+                      child: Center(
+                        child: Text(day, style: const TextStyle(fontWeight: FontWeight.bold, color: AppColors.secondary)),
+                      ),
+                    ))
+                .toList(),
+          ),
+          
+          // Days Grid
+          GridView.builder(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 7,
+              mainAxisSpacing: 4.0,
+              crossAxisSpacing: 4.0,
+            ),
+            itemCount: daysInMonth + firstDayOfWeek, // Days in October + padding for start day
+            itemBuilder: (context, index) {
+              if (index < firstDayOfWeek) {
+                return Container(); // Padding for days before the 1st
+              }
+
+              final dayOfMonth = index - firstDayOfWeek + 1;
+              final date = DateTime(focusedDay.year, focusedDay.month, dayOfMonth);
+              final isSelected = date.isSameDay(selectedDay);
+              final emoji = emojiMap[dayOfMonth] ?? '';
+              
+              return GestureDetector(
+                onTap: () => onDaySelected(date, focusedDay),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    CircleAvatar(
+                      radius: 14,
+                      backgroundColor: isSelected ? AppColors.primary : Colors.transparent,
+                      child: Text(
+                        '$dayOfMonth',
+                        style: TextStyle(
+                          color: isSelected ? Colors.white : AppColors.text,
+                          fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                          fontSize: 14,
+                        ),
+                      ),
+                    ),
+                    if (emoji.isNotEmpty)
+                      SizedBox( // Use a SizedBox to give the FittedBox a specific area
+                        height: 14,
+                        width: 25, // Give it a little horizontal breathing room
+                        child: FittedBox(
+                          fit: BoxFit.scaleDown, // Scale down only if needed
+                          child: Text(emoji, style: const TextStyle(fontSize: 14)),
+                        ),
+                      ),                  
+                  ],
+                ),
+              );
+            },
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class JournalSnippetCard extends StatelessWidget {
+  final JournalEntry? entry;
+  final DateTime selectedDate;
+  final VoidCallback onTap;
+
+  const JournalSnippetCard({
+    super.key,
+    required this.entry,
+    required this.selectedDate,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final bool hasEntry = entry != null;
+    
+    // Default text if no entry exists
+    final String snippetText = hasEntry
+        ? entry!.text
+        : selectedDate.isSameDay(DateTime.now())
+            ? 'Tap to write your thoughts for today.'
+            : 'No journal entry for this date.';
+
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: double.infinity,
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: AppColors.cardColor,
+          borderRadius: BorderRadius.circular(15),
+          border: hasEntry ? Border.all(color: AppColors.secondary.withOpacity(0.3)) : null,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.05),
+              blurRadius: 5,
+              offset: const Offset(0, 2),
+            ),
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            if (hasEntry)
+              Text(
+                'Sentiment: ${entry!.sentiment.emoji} ${entry!.sentiment.description}',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: entry!.sentiment.score < 0 ? AppColors.danger : AppColors.primary,
+                ),
+              ),
+            if (hasEntry) const SizedBox(height: 8),
+            Text(
+              snippetText,
+              maxLines: 4,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                fontSize: 16,
+                color: hasEntry ? AppColors.text : AppColors.secondary.withOpacity(0.7),
+                fontStyle: hasEntry ? FontStyle.normal : FontStyle.italic,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+// --- NEW SCREEN FOR JOURNAL ENTRY ---
+
+class JournalingScreen extends StatefulWidget {
+  final DateTime date;
+  final JournalEntry? initialEntry;
+
+  const JournalingScreen({
+    super.key,
+    required this.date,
+    this.initialEntry,
+  });
+
+  @override
+  State<JournalingScreen> createState() => _JournalingScreenState();
+}
+
+class _JournalingScreenState extends State<JournalingScreen> {
+  late final TextEditingController _controller;
+  final MockSentimentService _sentimentService = MockSentimentService();
+  SentimentResult _currentSentiment = const SentimentResult("⚪", 0.0, "Analyzing...");
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = TextEditingController(text: widget.initialEntry?.text ?? '');
+    if (widget.initialEntry != null) {
+      _currentSentiment = widget.initialEntry!.sentiment;
+    } 
+  }
+
+
+
+// REMOVED: _analyzeSentiment function. The analysis is now done only in _saveJournal.
+
+void _saveJournal() {
+  if (_controller.text.trim().isEmpty) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Journal entry cannot be empty.')),
+    );
+    return;
+  }
+
+  // NEW: Simulate calling the backend service to get the analysis result
+  final analyzedSentiment = _sentimentService.analyze(_controller.text.trim());
+
+  final newEntry = JournalEntry(
+    date: widget.date.copyWith(hour: 0, minute: 0, second: 0, millisecond: 0, microsecond: 0), // Normalize date
+    text: _controller.text.trim(),
+    sentiment: analyzedSentiment, // Use the result from the "backend" service
+  );
+
+  Navigator.of(context).pop(newEntry); // Return the entry to the dashboard
+}
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Journal for ${widget.date.day}/${widget.date.month}/${widget.date.year}'),
+        backgroundColor: AppColors.secondary,
+        foregroundColor: Colors.white,
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: AppColors.cardColor,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Row(
+                children: [
+                  Text(
+                    'Sentiment: ${_currentSentiment.emoji}',
+                    style: const TextStyle(fontSize: 28),
+                  ),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: Text(
+                      _currentSentiment.description,
+                      style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: AppColors.text),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 20),
+            Expanded(
+              child: TextFormField(
+                controller: _controller,
+                maxLines: null,
+                expands: true,
+                keyboardType: TextInputType.multiline,
+                decoration: InputDecoration(
+                  hintText: "Write down your thoughts and feelings...",
+                  fillColor: Colors.white,
+                  filled: true,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(15),
+                    borderSide: BorderSide.none,
+                  ),
+                ),
+                style: const TextStyle(fontSize: 16),
+              ),
+            ),
+            const SizedBox(height: 20),
+            Center(
+              child: StyledButton(
+                text: 'Save Journal Entry',
+                onPressed: _saveJournal,
+                color: AppColors.primary,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+// --- CUSTOM OVERLAY MENU WIDGET (REPLACES HAMBURGER) ---
+
+class CustomDrawerButton extends StatefulWidget {
+  const CustomDrawerButton({super.key});
+
+  @override
+  State<CustomDrawerButton> createState() => _CustomDrawerButtonState();
+}
+
+class _CustomDrawerButtonState extends State<CustomDrawerButton> {
+  OverlayEntry? _overlayEntry;
+
+  void _showOverlay(BuildContext context) {
+    if (_overlayEntry != null) {
+      _overlayEntry!.remove();
+      _overlayEntry = null;
+      return;
+    }
+
+    final RenderBox button = context.findRenderObject() as RenderBox;
+    final Offset offset = button.localToGlobal(Offset.zero);
+
+    _overlayEntry = OverlayEntry(
+      builder: (context) => Positioned(
+        top: offset.dy + button.size.height + 5,
+        right: 15,
+        child: Material(
+          color: Colors.transparent,
+          child: Container(
+            // NEW: Explicitly set the width here to prevent infinite constraints
+            width: 200, // You can adjust this width based on your desired look
+            decoration: BoxDecoration(
+              color: AppColors.background,
+              borderRadius: BorderRadius.circular(10),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.2),
+                  blurRadius: 10,
+                  offset: const Offset(0, 4),
+                ),
+              ],
+            ),
+            child: Column( 
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                _DrawerButton(text: 'DETECTED ISSUE', color: AppColors.secondary, onTap: _hideOverlay),
+                _DrawerButton(text: 'RISK TRENDS', color: AppColors.secondary.withOpacity(0.9), onTap: _hideOverlay),
+                _DrawerButton(text: 'RECOMMENDATIONS', color: AppColors.secondary.withOpacity(0.8), onTap: _hideOverlay),
+                _DrawerButton(text: 'PROFESSIONALS', color: AppColors.secondary.withOpacity(0.7), onTap: _hideOverlay),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+
+    Overlay.of(context).insert(_overlayEntry!);
+  }
+
+  void _hideOverlay() {
+    if (_overlayEntry != null) {
+      _overlayEntry!.remove();
+      _overlayEntry = null;
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+      icon: const Icon(Icons.menu, color: AppColors.secondary),
+      onPressed: () => _showOverlay(context),
+    );
+  }
+}
+
+class _DrawerButton extends StatelessWidget {
+  final String text;
+  final Color color;
+  final VoidCallback onTap;
+
+  const _DrawerButton({required this.text, required this.color, required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () {
+        onTap();
+        // Add navigation logic here
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('$text tapped!')));
+      },
+      child: Container(
+        width: 180,
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        margin: const EdgeInsets.all(5),
+        decoration: BoxDecoration(
+          color: color,
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Center(
+          child: Text(
+            text,
+            style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14),
+          ),
+        ),
+      ),
+    );
+  }
 }
