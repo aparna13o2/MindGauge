@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
+import 'package:mind_gauge/services/api_service.dart';
 
 // --- MOCK SERVICE LAYER AND DATA STRUCTURES ---
 class UserProfile {
@@ -623,6 +624,7 @@ State<LoginScreen> createState() => _LoginScreenState();
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+<<<<<<< HEAD
 final GlobalKey<FormState> _formKey = GlobalKey<FormState>(); 
 final MockAuthService _authService = MockAuthService();
 final TextEditingController _emailController = TextEditingController();
@@ -634,6 +636,34 @@ void _handleLogin() async {
   return; 
  }
  setState(() { _isLoading = true; });
+=======
+ final ApiService _authService = ApiService();
+ final TextEditingController _emailController = TextEditingController();
+ final TextEditingController _passwordController = TextEditingController();
+ bool _isLoading = false;
+
+void _handleLogin() async {
+  setState(() { _isLoading = true; });
+
+  final result = await _authService.login(
+    _emailController.text,
+    _passwordController.text,
+  );
+
+  setState(() { _isLoading = false; });
+
+  if (result != null && result["status"] == "success") {
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(builder: (_) => const MainDashboard()),
+    );
+  } else {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Login failed')),
+    );
+  }
+}
+
+>>>>>>> 7052d0b84a41f343e5589a38625a2bcb35820165
 
  final user = await _authService.login(
  _emailController.text,
@@ -755,9 +785,41 @@ final TextEditingController _passwordController = TextEditingController();
 final TextEditingController _locationController = TextEditingController();
 bool _isLoading = false;
 
+<<<<<<< HEAD
 void _handleRegister() async {
  if (!_formKey.currentState!.validate()) {
   return; 
+=======
+ void _handleRegister() async {
+  setState(() { _isLoading = true; });
+
+  final success = await _authService.register(
+  _emailController.text,
+  _nameController.text,
+  _ageController.text,
+  _passwordController.text,
+  _locationController.text,
+);
+
+
+  setState(() { _isLoading = false; });
+
+  if (success) {
+   if (mounted) {
+    // Show success and navigate to login
+    ScaffoldMessenger.of(context).showSnackBar(
+     const SnackBar(content: Text('Registration successful! Please log in.')),
+    );
+    Navigator.of(context).pop(); // Go back to login screen
+   }
+  } else {
+   if (mounted) {
+    ScaffoldMessenger.of(context).showSnackBar(
+     const SnackBar(content: Text('Registration failed. Try again.')),
+    );
+   }
+  }
+>>>>>>> 7052d0b84a41f343e5589a38625a2bcb35820165
  }
  setState(() { _isLoading = true; });
 
