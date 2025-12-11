@@ -1,0 +1,61 @@
+Sample,Do you feel happier or more cheerful than usual?,Do you feel more self-confident than usual?,Do you need less sleep than usual?,Do you talk more than usual?,Have you been more active than usual?,Total Raw Score (TR),Prorated Score (PS),End Result Label
+Sample 1,3,4,1,2,0,10,10,Significant Mania
+Sample 2,1,2,3,4,1,11,11,Significant Mania
+Sample 3,4,1,0,3,2,10,10,Significant Mania
+Sample 4,0,3,4,1,3,11,11,Significant Mania
+Sample 5,2,0,2,0,4,8,8,Significant Mania
+Sample 6,3,4,1,2,0,10,10,Significant Mania
+Sample 7,4,2,0,4,1,11,11,Significant Mania
+Sample 8,1,3,4,0,2,10,10,Significant Mania
+Sample 9,0,1,3,1,4,9,9,Significant Mania
+Sample 10,2,0,2,3,3,10,10,Significant Mania
+Sample 11,3,4,1,2,0,10,10,Significant Mania
+Sample 12,1,2,3,4,1,11,11,Significant Mania
+Sample 13,4,1,0,3,2,10,10,Significant Mania
+Sample 14,0,3,4,1,3,11,11,Significant Mania
+Sample 15,2,0,2,0,4,8,8,Significant Mania
+Sample 16,3,4,1,2,0,10,10,Significant Mania
+Sample 17,4,2,0,4,1,11,11,Significant Mania
+Sample 18,1,3,4,0,2,10,10,Significant Mania
+Sample 19,0,1,3,1,4,9,9,Significant Mania
+Sample 20,2,0,2,3,3,10,10,Significant Mania
+Sample 21,1,2,1,2,0,6,6,Significant Mania
+Sample 22,1,2,1,2,0,6,6,Significant Mania
+Sample 23,2,1,0,1,2,6,6,Significant Mania
+Sample 24,2,1,0,1,2,6,6,Significant Mania
+Sample 25,1,1,2,2,0,6,6,Significant Mania
+Sample 26,0,3,0,1,2,6,6,Significant Mania
+Sample 27,0,3,0,1,2,6,6,Significant Mania
+Sample 28,1,0,2,1,2,6,6,Significant Mania
+Sample 29,1,0,2,1,2,6,6,Significant Mania
+Sample 30,2,0,1,1,2,6,6,Significant Mania
+Sample 31,1,1,1,1,1,5,5,Less Significant Mania
+Sample 32,1,1,1,1,1,5,5,Less Significant Mania
+Sample 33,0,1,1,1,2,5,5,Less Significant Mania
+Sample 34,0,1,1,1,2,5,5,Less Significant Mania
+Sample 35,0,0,2,1,2,5,5,Less Significant Mania
+Sample 36,0,0,2,1,2,5,5,Less Significant Mania
+Sample 37,1,1,1,0,2,5,5,Less Significant Mania
+Sample 38,1,1,1,0,2,5,5,Less Significant Mania
+Sample 39,1,1,1,1,1,5,5,Less Significant Mania
+Sample 40,1,1,1,1,1,5,5,Less Significant Mania
+Sample 41,0,0,0,0,0,0,0,Less Significant Mania
+Sample 42,0,0,0,0,0,0,0,Less Significant Mania
+Sample 43,0,0,0,0,1,1,1,Less Significant Mania
+Sample 44,0,0,0,1,0,1,1,Less Significant Mania
+Sample 45,0,0,1,0,0,1,1,Less Significant Mania
+Sample 46,0,1,0,0,0,1,1,Less Significant Mania
+Sample 47,1,0,0,0,0,1,1,Less Significant Mania
+Sample 48,1,1,0,0,0,2,2,Less Significant Mania
+Sample 49,1,0,1,0,0,2,2,Less Significant Mania
+Sample 50,0,1,1,0,0,2,2,Less Significant Mania
+Sample 51,0,1,1,1,0,3,3,Less Significant Mania
+Sample 52,1,1,1,0,0,3,3,Less Significant Mania
+Sample 53,1,0,1,1,0,3,3,Less Significant Mania
+Sample 54,1,1,0,1,0,3,3,Less Significant Mania
+Sample 55,2,0,1,0,0,3,3,Less Significant Mania
+Sample 56,2,1,0,0,0,3,3,Less Significant Mania
+Sample 57,0,2,1,0,0,3,3,Less Significant Mania
+Sample 58,0,0,2,1,1,4,4,Less Significant Mania
+Sample 59,1,1,1,1,0,4,4,Less Significant Mania
+Sample 60,2,2,0,0,0,4,4,Less Significant Mania

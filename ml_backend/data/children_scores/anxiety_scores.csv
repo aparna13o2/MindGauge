@@ -1,0 +1,61 @@
+Sample,I felt like something awful might happen.,I felt nervous.,I felt scared.,I felt worried.,I worried about what could happen to me.,I worried when I went to bed at night.,I got scared really easy.,I was afraid of going to school.,I was worried I might die.,I woke up at night scared.,I worried when I was at home.,I worried when I was away from home.,It was hard for me to relax.,Total Raw Score (TR),Prorated Score (PS),End Result Label
+Sample 1,1,1,1,1,1,1,1,1,1,1,1,1,1,13,13,None to slight
+Sample 2,1,1,1,1,1,1,1,1,1,1,1,1,1,13,13,None to slight
+Sample 3,1,1,1,1,1,1,1,1,1,1,1,1,1,13,13,None to slight
+Sample 4,1,1,1,1,1,1,1,1,1,1,1,1,2,14,14,None to slight
+Sample 5,1,1,1,1,1,1,1,1,1,1,1,2,2,16,16,None to slight
+Sample 6,1,1,1,1,1,1,1,1,2,2,2,1,1,17,17,None to slight
+Sample 7,2,2,1,1,1,1,1,1,2,1,1,1,1,16,16,None to slight
+Sample 8,2,2,2,1,1,1,1,1,1,2,2,1,1,18,18,None to slight
+Sample 9,2,2,2,2,1,1,1,1,1,1,2,2,1,19,19,None to slight
+Sample 10,2,2,2,2,2,1,1,1,1,1,2,2,2,21,21,None to slight
+Sample 11,2,2,2,2,2,2,1,1,2,2,2,2,2,25,25,None to slight
+Sample 12,3,2,2,2,2,2,2,1,2,2,2,2,2,28,28,Mild
+Sample 13,3,3,2,2,2,2,2,2,2,2,2,2,2,30,30,Mild
+Sample 14,3,3,3,2,2,2,2,2,3,2,2,2,2,32,32,Mild
+Sample 15,3,3,3,3,2,2,2,2,3,3,2,2,2,34,34,Moderate
+Sample 16,3,3,3,3,3,2,2,2,3,3,3,2,2,37,37,Moderate
+Sample 17,4,3,3,3,3,3,3,2,3,3,3,2,2,40,40,Moderate
+Sample 18,4,4,3,3,3,3,3,3,3,3,3,3,3,44,44,Moderate
+Sample 19,4,4,4,3,3,3,3,3,4,3,3,3,3,46,46,Moderate
+Sample 20,4,4,4,4,3,3,4,3,4,4,3,3,3,49,49,Severe
+Sample 21,4,4,4,4,4,4,4,3,4,4,4,3,3,52,52,Severe
+Sample 22,5,4,4,4,4,4,4,4,4,4,4,4,3,55,55,Severe
+Sample 23,5,5,4,4,4,4,5,4,4,4,4,4,4,59,59,Severe
+Sample 24,5,5,5,4,4,5,5,5,5,4,5,4,4,60,60,Severe
+Sample 25,5,5,5,5,5,5,5,5,5,5,5,5,5,65,65,Severe
+Sample 26,2,2,2,2,2,2,2,2,2,2,2,2,2,26,26,None to slight
+Sample 27,2,2,2,2,2,2,2,2,2,2,2,2,2,26,26,None to slight
+Sample 28,2,2,2,2,2,2,2,2,2,2,2,2,2,26,26,None to slight
+Sample 29,3,3,3,2,2,2,2,2,3,3,2,2,2,32,32,Mild
+Sample 30,3,3,3,3,2,2,2,2,3,3,2,2,2,33,33,Mild
+Sample 31,3,3,3,3,3,2,2,2,3,3,3,2,2,36,36,Moderate
+Sample 32,4,3,3,3,3,3,3,3,3,3,3,3,3,43,43,Moderate
+Sample 33,4,4,4,4,4,4,4,4,4,4,4,4,4,52,52,Severe
+Sample 34,5,5,5,5,5,5,5,5,5,5,5,5,5,65,65,Severe
+Sample 35,3,3,3,2,2,2,2,2,3,3,2,2,2,32,32,Mild
+Sample 36,3,3,3,3,2,2,2,2,3,3,2,2,2,33,33,Mild
+Sample 37,3,3,3,3,3,2,2,2,3,3,3,2,2,36,36,Moderate
+Sample 38,4,3,3,3,3,3,3,3,3,3,3,3,3,43,43,Moderate
+Sample 39,4,4,4,4,4,4,4,4,4,4,4,4,4,52,52,Severe
+Sample 40,5,5,5,5,5,5,5,5,5,5,5,5,5,65,65,Severe
+Sample 41,2,2,2,2,2,2,2,2,2,2,2,2,2,26,26,None to slight
+Sample 42,2,2,2,2,2,2,2,2,2,2,2,2,2,26,26,None to slight
+Sample 43,3,3,3,2,2,2,2,2,3,3,2,2,2,32,32,Mild
+Sample 44,3,3,3,3,2,2,2,2,3,3,2,2,2,33,33,Mild
+Sample 45,3,3,3,3,3,2,2,2,3,3,3,2,2,36,36,Moderate
+Sample 46,4,3,3,3,3,3,3,3,3,3,3,3,3,43,43,Moderate
+Sample 47,4,4,4,4,4,4,4,4,4,4,4,4,4,52,52,Severe
+Sample 48,5,5,5,5,5,5,5,5,5,5,5,5,5,65,65,Severe
+Sample 49,2,2,2,2,2,2,2,2,2,2,2,2,2,26,26,None to slight
+Sample 50,2,2,2,2,2,2,2,2,2,2,2,2,2,26,26,None to slight
+Sample 51,3,3,3,2,2,2,2,2,3,3,2,2,2,32,32,Mild
+Sample 52,3,3,3,3,2,2,2,2,3,3,2,2,2,33,33,Mild
+Sample 53,3,3,3,3,3,2,2,2,3,3,3,2,2,36,36,Moderate
+Sample 54,4,3,3,3,3,3,3,3,3,3,3,3,3,43,43,Moderate
+Sample 55,4,4,4,4,4,4,4,4,4,4,4,4,4,52,52,Severe
+Sample 56,5,5,5,5,5,5,5,5,5,5,5,5,5,65,65,Severe
+Sample 57,2,2,2,2,2,2,2,2,2,2,2,2,2,26,26,None to slight
+Sample 58,3,3,3,2,2,2,2,2,3,3,2,2,2,32,32,Mild
+Sample 59,3,3,3,3,3,2,2,2,3,3,3,2,2,36,36,Moderate
+Sample 60,4,4,4,4,4,4,4,4,4,4,4,4,4,52,52,Severe

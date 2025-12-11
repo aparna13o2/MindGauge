@@ -147,9 +147,18 @@ def train_lgbm_model(file_path, model_output_path, label_encoder_path, reverse_c
     test_data = lgb.Dataset(X_test, label=y_test)
 
     params = {
-        "objective": "multiclass", "num_class": len(le.classes_), "learning_rate": 0.01,
-        "num_leaves": 10, "max_depth": 4, "metric": "multi_logloss", "n_jobs": -1, "verbose": -1,
-        "lambda_l1": 0.1, "lambda_l2": 0.1, "min_child_samples": 10, "is_unbalance": True
+        "objective": "multiclass",
+        "num_class": len(le.classes_),
+        "learning_rate": 0.01,
+        "num_leaves": 20,         # <-- INCREASED
+        "max_depth": 6,           # <-- INCREASED
+        "metric": "multi_logloss",
+        "n_jobs": -1,
+        "verbose": -1,
+        "lambda_l1": 0.01,        # <-- REDUCED REGULARIZATION
+        "lambda_l2": 0.01,        # <-- REDUCED REGULARIZATION
+        "min_child_samples": 5,   # <-- REDUCED
+        "is_unbalance": True
     }
 
     callbacks = [early_stopping(stopping_rounds=30, verbose=-1)]
