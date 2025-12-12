@@ -1,0 +1,61 @@
+Sample,I felt fearful.,I felt anxious.,I felt worried.,I found it hard to focus on anything other than my anxiety.,I felt nervous.,I felt uneasy.,I felt tense.,Total Raw Score (TR),Prorated Score (PS),End Result Label
+Sample 1,1,1,1,1,1,1,1,7,7,None to slight
+Sample 2,1,1,1,1,1,1,1,7,7,None to slight
+Sample 3,1,1,1,1,1,1,1,7,7,None to slight
+Sample 4,2,1,1,1,1,1,1,8,8,None to slight
+Sample 5,2,2,1,1,1,1,1,9,9,None to slight
+Sample 6,2,2,2,1,1,1,1,10,10,None to slight
+Sample 7,2,2,2,2,1,1,1,11,11,None to slight
+Sample 8,3,2,2,2,2,1,1,13,13,None to slight
+Sample 9,3,3,2,2,2,2,1,15,15,Mild
+Sample 10,3,3,3,2,2,2,2,17,17,Mild
+Sample 11,3,3,3,3,2,2,2,18,18,Mild
+Sample 12,3,3,3,3,3,2,2,19,19,Moderate
+Sample 13,4,3,3,3,3,3,2,21,21,Moderate
+Sample 14,4,4,3,3,3,3,3,23,23,Moderate
+Sample 15,4,4,4,3,3,3,3,24,24,Moderate
+Sample 16,4,4,4,4,3,3,3,25,25,Moderate
+Sample 17,5,4,4,4,4,3,3,27,27,Severe
+Sample 18,5,5,4,4,4,4,3,29,29,Severe
+Sample 19,5,5,5,4,4,4,4,31,31,Severe
+Sample 20,5,5,5,5,5,4,4,33,33,Severe
+Sample 21,5,5,5,5,5,5,5,35,35,Severe
+Sample 22,1,1,1,1,1,1,1,7,7,None to slight
+Sample 23,2,2,2,1,1,1,1,10,10,None to slight
+Sample 24,3,3,3,3,2,2,2,18,18,Mild
+Sample 25,4,4,4,3,3,3,3,24,24,Moderate
+Sample 26,5,5,5,4,4,4,4,31,31,Severe
+Sample 27,1,1,1,1,1,1,1,7,7,None to slight
+Sample 28,2,2,2,2,2,1,1,12,12,None to slight
+Sample 29,3,3,3,3,3,3,3,21,21,Moderate
+Sample 30,5,5,5,5,5,5,5,35,35,Severe
+Sample 31,1,1,1,1,1,1,1,7,7,None to slight
+Sample 32,2,2,2,2,2,1,1,12,12,None to slight
+Sample 33,3,3,3,3,3,3,3,21,21,Moderate
+Sample 34,5,5,5,5,5,5,5,35,35,Severe
+Sample 35,1,1,1,1,1,1,1,7,7,None to slight
+Sample 36,2,2,2,2,2,1,1,12,12,None to slight
+Sample 37,3,3,3,3,3,3,3,21,21,Moderate
+Sample 38,5,5,5,5,5,5,5,35,35,Severe
+Sample 39,1,1,1,1,1,1,1,7,7,None to slight
+Sample 40,2,2,2,2,2,1,1,12,12,None to slight
+Sample 41,3,3,3,3,3,3,3,21,21,Moderate
+Sample 42,5,5,5,5,5,5,5,35,35,Severe
+Sample 43,1,1,1,1,1,1,1,7,7,None to slight
+Sample 44,2,2,2,2,2,1,1,12,12,None to slight
+Sample 45,3,3,3,3,3,3,3,21,21,Moderate
+Sample 46,5,5,5,5,5,5,5,35,35,Severe
+Sample 47,1,1,1,1,1,1,1,7,7,None to slight
+Sample 48,2,2,2,2,2,1,1,12,12,None to slight
+Sample 49,3,3,3,3,3,3,3,21,21,Moderate
+Sample 50,5,5,5,5,5,5,5,35,35,Severe
+Sample 51,1,1,1,1,1,1,1,7,7,None to slight
+Sample 52,2,2,2,2,2,1,1,12,12,None to slight
+Sample 53,3,3,3,3,3,3,3,21,21,Moderate
+Sample 54,5,5,5,5,5,5,5,35,35,Severe
+Sample 55,1,1,1,1,1,1,1,7,7,None to slight
+Sample 56,2,2,2,2,2,1,1,12,12,None to slight
+Sample 57,3,3,3,3,3,3,3,21,21,Moderate
+Sample 58,5,5,5,5,5,5,5,35,35,Severe
+Sample 59,3,3,3,3,3,3,3,21,21,Moderate
+Sample 60,5,5,5,5,5,5,5,35,35,Severe

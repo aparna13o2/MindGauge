@@ -1,61 +1,61 @@
-Sample,Little interest or pleasure in doing things,"Feeling down, depressed, or hopeless","Trouble falling or staying asleep, or sleeping too much","Feeling tired or having little energy",Poor appetite or overeating ,Feeling bad about yourself ,Trouble concentrating on things ,"Moving or speaking slowly, or being so fidgety" ,Thoughts that you would be better off dead ,Total Raw Score (TR),Prorated Score (PS),End Result Label
-Sample 1,0,0,0,0,0,0,0,0,0,0,0,None
-Sample 2,0,0,0,0,0,0,0,0,0,0,0,None
-Sample 3,0,0,0,0,0,0,0,0,0,0,0,None
-Sample 4,1,1,1,0,0,0,0,0,0,3,3,None
-Sample 5,1,1,1,1,0,0,0,0,0,4,4,None
-Sample 6,1,1,1,1,0,0,0,0,0,4,4,None
-Sample 7,1,1,1,1,1,0,0,0,0,5,5,Mild
-Sample 8,1,1,1,1,1,1,0,0,0,6,6,Mild
-Sample 9,1,1,1,1,1,1,1,0,0,7,7,Mild
-Sample 10,1,1,1,1,1,1,1,1,0,8,8,Mild
-Sample 11,2,1,1,1,1,1,1,1,0,9,9,Mild
-Sample 12,2,2,1,1,1,1,1,1,0,10,10,Moderate
-Sample 13,2,2,1,2,1,1,1,1,0,11,11,Moderate
-Sample 14,2,2,2,2,1,1,1,1,0,12,12,Moderate
-Sample 15,2,2,2,2,2,1,1,1,1,14,14,Moderate
-Sample 16,3,2,2,2,2,1,1,1,1,15,15,Moderately severe
-Sample 17,3,3,2,2,2,2,1,1,1,17,17,Moderately severe
-Sample 18,3,3,3,2,2,2,2,2,1,20,20,Severe
-Sample 19,3,3,3,3,2,2,2,2,2,22,22,Severe
-Sample 20,3,3,3,3,3,3,2,2,2,24,24,Severe
-Sample 21,3,3,3,3,3,3,3,3,3,27,27,Severe
-Sample 22,0,0,0,0,0,0,0,0,0,0,0,None
-Sample 23,1,1,1,1,0,0,0,0,0,4,4,None
-Sample 24,1,1,1,1,1,1,1,1,0,8,8,Mild
-Sample 25,2,2,2,1,1,1,1,1,0,11,11,Moderate
-Sample 26,3,2,2,2,2,1,1,1,1,15,15,Moderately severe
-Sample 27,3,3,3,3,2,2,2,2,2,22,22,Severe
-Sample 28,0,0,0,0,0,0,0,0,0,0,0,None
-Sample 29,1,1,1,1,1,1,1,1,0,8,8,Mild
-Sample 30,2,2,2,2,1,1,1,1,0,12,12,Moderate
-Sample 31,3,3,2,2,2,2,2,1,1,18,18,Moderately severe
-Sample 32,3,3,3,3,3,3,3,3,3,27,27,Severe
-Sample 33,0,0,0,0,0,0,0,0,0,0,0,None
-Sample 34,1,1,1,1,1,1,1,1,0,8,8,Mild
-Sample 35,2,2,2,2,1,1,1,1,0,12,12,Moderate
-Sample 36,3,3,2,2,2,2,2,1,1,18,18,Moderately severe
-Sample 37,3,3,3,3,3,3,3,3,3,27,27,Severe
-Sample 38,0,0,0,0,0,0,0,0,0,0,0,None
-Sample 39,1,1,1,1,1,1,1,1,0,8,8,Mild
-Sample 40,2,2,2,2,1,1,1,1,0,12,12,Moderate
-Sample 41,3,3,2,2,2,2,2,1,1,18,18,Moderately severe
-Sample 42,3,3,3,3,3,3,3,3,3,27,27,Severe
-Sample 43,0,0,0,0,0,0,0,0,0,0,0,None
-Sample 44,1,1,1,1,1,1,1,1,0,8,8,Mild
-Sample 45,2,2,2,2,1,1,1,1,0,12,12,Moderate
-Sample 46,3,3,2,2,2,2,2,1,1,18,18,Moderately severe
-Sample 47,3,3,3,3,3,3,3,3,3,27,27,Severe
-Sample 48,0,0,0,0,0,0,0,0,0,0,0,None
-Sample 49,1,1,1,1,1,1,1,1,0,8,8,Mild
-Sample 50,2,2,2,2,1,1,1,1,0,12,12,Moderate
-Sample 51,3,3,2,2,2,2,2,1,1,18,18,Moderately severe
-Sample 52,3,3,3,3,3,3,3,3,3,27,27,Severe
-Sample 53,0,0,0,0,0,0,0,0,0,0,0,None
-Sample 54,1,1,1,1,1,1,1,1,0,8,8,Mild
-Sample 55,2,2,2,2,1,1,1,1,0,12,12,Moderate
-Sample 56,3,3,2,2,2,2,2,1,1,18,18,Moderately severe
-Sample 57,3,3,3,3,3,3,3,3,3,27,27,Severe
-Sample 58,1,1,1,1,1,1,1,1,0,8,8,Mild
-Sample 59,2,2,2,2,1,1,1,1,0,12,12,Moderate
-Sample 60,3,3,3,3,3,3,3,3,3,27,27,Severe
+Sample,I felt worthless.,I felt that I had nothing to look forward to.,I felt helpless.,I felt sad.,I felt like a failure.,I felt depressed.,I felt unhappy.,I felt hopeless.,Total Raw Score (TR),Prorated Score (PS),End Result Label
+Sample 1,1,1,1,1,1,1,1,1,8,8,None to slight
+Sample 2,1,1,1,1,1,1,1,1,8,8,None to slight
+Sample 3,1,1,1,1,1,1,1,1,8,8,None to slight
+Sample 4,1,1,1,1,1,1,1,1,8,8,None to slight
+Sample 5,1,1,1,1,1,1,1,1,8,8,None to slight
+Sample 6,1,1,1,1,1,1,1,1,8,8,None to slight
+Sample 7,2,1,1,1,1,1,1,1,9,9,None to slight
+Sample 8,2,2,1,1,1,1,1,1,10,10,None to slight
+Sample 9,2,2,2,1,1,1,1,1,11,11,None to slight
+Sample 10,2,2,2,2,1,1,1,1,12,12,None to slight
+Sample 11,3,2,2,2,2,1,1,1,14,14,None to slight
+Sample 12,3,3,2,2,2,2,1,1,16,16,None to slight
+Sample 13,3,3,3,2,2,2,2,1,18,18,Mild
+Sample 14,3,3,3,3,2,2,2,2,20,20,Mild
+Sample 15,3,3,3,3,3,2,2,2,21,21,Mild
+Sample 16,4,3,3,3,3,3,2,2,23,23,Moderate
+Sample 17,4,4,3,3,3,3,3,2,25,25,Moderate
+Sample 18,4,4,4,3,3,3,3,3,27,27,Moderate
+Sample 19,4,4,4,4,4,3,3,3,29,29,Moderate
+Sample 20,4,4,4,4,4,4,3,3,30,30,Moderate
+Sample 21,4,4,4,4,4,4,4,3,31,31,Moderate
+Sample 22,5,4,4,4,4,4,4,4,33,33,Severe
+Sample 23,5,5,4,4,4,4,4,4,34,34,Severe
+Sample 24,5,5,5,4,4,4,4,4,35,35,Severe
+Sample 25,5,5,5,5,4,4,4,4,36,36,Severe
+Sample 26,5,5,5,5,5,4,4,4,37,37,Severe
+Sample 27,5,5,5,5,5,5,4,4,38,38,Severe
+Sample 28,5,5,5,5,5,5,5,4,39,39,Severe
+Sample 29,5,5,5,5,5,5,5,5,40,40,Severe
+Sample 30,1,1,1,1,1,1,1,1,8,8,None to slight
+Sample 31,2,2,2,2,2,1,1,1,13,13,None to slight
+Sample 32,3,3,3,3,3,3,3,3,24,24,Moderate
+Sample 33,4,4,4,4,4,4,4,4,32,32,Moderate
+Sample 34,5,5,5,5,5,5,5,5,40,40,Severe
+Sample 35,1,1,1,1,1,1,1,1,8,8,None to slight
+Sample 36,2,2,2,2,2,1,1,1,13,13,None to slight
+Sample 37,3,3,3,3,3,3,3,3,24,24,Moderate
+Sample 38,4,4,4,4,4,4,4,4,32,32,Moderate
+Sample 39,5,5,5,5,5,5,5,5,40,40,Severe
+Sample 40,1,1,1,1,1,1,1,1,8,8,None to slight
+Sample 41,2,2,2,2,2,1,1,1,13,13,None to slight
+Sample 42,3,3,3,3,3,3,3,3,24,24,Moderate
+Sample 43,4,4,4,4,4,4,4,4,32,32,Moderate
+Sample 44,5,5,5,5,5,5,5,5,40,40,Severe
+Sample 45,1,1,1,1,1,1,1,1,8,8,None to slight
+Sample 46,2,2,2,2,2,1,1,1,13,13,None to slight
+Sample 47,3,3,3,3,3,3,3,3,24,24,Moderate
+Sample 48,4,4,4,4,4,4,4,4,32,32,Moderate
+Sample 49,5,5,5,5,5,5,5,5,40,40,Severe
+Sample 50,1,1,1,1,1,1,1,1,8,8,None to slight
+Sample 51,2,2,2,2,2,1,1,1,13,13,None to slight
+Sample 52,3,3,3,3,3,3,3,3,24,24,Moderate
+Sample 53,4,4,4,4,4,4,4,4,32,32,Moderate
+Sample 54,5,5,5,5,5,5,5,5,40,40,Severe
+Sample 55,1,1,1,1,1,1,1,1,8,8,None to slight
+Sample 56,2,2,2,2,2,1,1,1,13,13,None to slight
+Sample 57,3,3,3,3,3,3,3,3,24,24,Moderate
+Sample 58,4,4,4,4,4,4,4,4,32,32,Moderate
+Sample 59,5,5,5,5,5,5,5,5,40,40,Severe
+Sample 60,3,3,3,3,3,3,3,3,24,24,Moderate

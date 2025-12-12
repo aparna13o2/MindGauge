@@ -1,0 +1,61 @@
+Sample,"Painkillers (like Vicodin)","Stimulants (like Ritalin, Adderall)",Sedatives or tranquilizers (like sleeping pills or Valium),Marijuana,Cocaine or crack,Club drugs (like ecstasy),Hallucinogens (like LSD),Heroin,Inhalants or solvents (like glue),Methamphetamine (like speed),NDSU,End Result Label
+Sample 1,0,0,0,0,0,0,0,0,0,0,0,No Use
+Sample 2,0,0,0,0,0,0,0,0,0,0,0,No Use
+Sample 3,0,0,0,0,0,0,0,0,0,0,0,No Use
+Sample 4,0,0,0,0,0,0,0,0,0,0,0,No Use
+Sample 5,0,0,0,0,0,0,0,0,0,0,0,No Use
+Sample 6,0,0,0,0,0,0,0,0,0,0,0,No Use
+Sample 7,0,0,0,0,0,0,0,0,0,0,0,No Use
+Sample 8,0,0,0,0,0,0,0,0,0,0,0,No Use
+Sample 9,0,0,0,0,0,0,0,0,0,0,0,No Use
+Sample 10,0,0,0,0,0,0,0,0,0,0,0,No Use
+Sample 11,0,0,0,0,0,0,0,0,0,0,0,No Use
+Sample 12,0,0,0,0,0,0,0,0,0,0,0,No Use
+Sample 13,0,0,0,0,0,0,0,0,0,0,0,No Use
+Sample 14,0,0,0,0,0,0,0,0,0,0,0,No Use
+Sample 15,0,0,0,0,0,0,0,0,0,0,0,No Use
+Sample 16,0,0,0,0,0,0,0,0,0,0,0,No Use
+Sample 17,0,0,0,0,0,0,0,0,0,0,0,No Use
+Sample 18,0,0,0,0,0,0,0,0,0,0,0,No Use
+Sample 19,0,0,0,0,0,0,0,0,0,0,0,No Use
+Sample 20,0,0,0,0,0,0,0,0,0,0,0,No Use
+Sample 21,1,0,0,0,0,0,0,0,0,0,1,Single Substance Use
+Sample 22,0,1,0,0,0,0,0,0,0,0,1,Single Substance Use
+Sample 23,0,0,1,0,0,0,0,0,0,0,1,Single Substance Use
+Sample 24,0,0,0,1,0,0,0,0,0,0,1,Single Substance Use
+Sample 25,0,0,0,0,1,0,0,0,0,0,1,Single Substance Use
+Sample 26,0,0,0,0,0,1,0,0,0,0,1,Single Substance Use
+Sample 27,0,0,0,0,0,0,1,0,0,0,1,Single Substance Use
+Sample 28,0,0,0,0,0,0,0,1,0,0,1,Single Substance Use
+Sample 29,0,0,0,0,0,0,0,0,1,0,1,Single Substance Use
+Sample 30,0,0,0,0,0,0,0,0,0,1,1,Single Substance Use
+Sample 31,1,0,0,1,0,0,0,0,0,0,2,Polysubstance Use
+Sample 32,1,1,0,0,0,0,0,0,0,0,2,Polysubstance Use
+Sample 33,0,1,1,0,0,0,0,0,0,0,2,Polysubstance Use
+Sample 34,0,0,1,1,0,0,0,0,0,0,2,Polysubstance Use
+Sample 35,0,0,0,1,1,0,0,0,0,0,2,Polysubstance Use
+Sample 36,0,0,0,0,1,1,0,0,0,0,2,Polysubstance Use
+Sample 37,1,0,0,0,0,0,1,0,0,0,2,Polysubstance Use
+Sample 38,0,1,0,0,0,0,0,1,0,0,2,Polysubstance Use
+Sample 39,0,0,1,0,0,0,0,0,1,0,2,Polysubstance Use
+Sample 40,0,0,0,1,0,0,0,0,0,1,2,Polysubstance Use
+Sample 41,1,1,1,1,0,0,0,0,0,0,4,Polysubstance Use
+Sample 42,2,1,1,1,1,0,0,0,0,0,5,Polysubstance Use
+Sample 43,1,2,1,1,1,1,0,0,0,0,6,Polysubstance Use
+Sample 44,2,2,2,1,1,1,1,0,0,0,7,Polysubstance Use
+Sample 45,3,2,2,2,2,1,1,1,0,0,9,Polysubstance Use
+Sample 46,4,3,2,2,2,2,2,1,1,0,11,Polysubstance Use
+Sample 47,4,4,3,3,2,2,2,2,1,1,13,Polysubstance Use
+Sample 48,4,4,4,3,3,2,2,2,2,1,15,Polysubstance Use
+Sample 49,0,0,0,0,0,0,0,0,0,0,0,No Use
+Sample 50,0,0,0,0,0,0,0,0,0,0,0,No Use
+Sample 51,0,0,0,0,0,0,0,0,0,0,0,No Use
+Sample 52,1,0,0,0,0,0,0,0,0,0,1,Single Substance Use
+Sample 53,0,1,0,0,0,0,0,0,0,0,1,Single Substance Use
+Sample 54,0,0,1,0,0,0,0,0,0,0,1,Single Substance Use
+Sample 55,1,1,0,0,0,0,0,0,0,0,2,Polysubstance Use
+Sample 56,1,0,1,0,0,0,0,0,0,0,2,Polysubstance Use
+Sample 57,0,1,1,0,0,0,0,0,0,0,2,Polysubstance Use
+Sample 58,1,1,1,1,1,1,1,1,1,1,10,Polysubstance Use
+Sample 59,0,0,0,0,0,0,0,0,0,0,0,No Use
+Sample 60,1,0,0,0,0,0,0,0,0,0,1,Single Substance Use
