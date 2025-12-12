@@ -1,0 +1,61 @@
+Sample,Depression_Score,Anger_Score,Mania_Score,Anxiety_Score,Somatic_Score,Sleep_Disturbance_Score,Repetitive_Thoughts_Score,Substance_Use_Score,Inattention_Score,Psychosis_Score,Dissociation_Score,Personality_Functioning_Score,Impulsivity_Score,Clinical_Diagnosis
+Sample 1,2,1,0,3,4,5,1,0,2,0,1,1,2,No Diagnosis
+Sample 2,15,8,3,18,12,25,5,1,5,1,2,4,3,Anxiety Disorder
+Sample 3,25,18,15,8,22,35,15,3,15,5,5,8,7,Severe Mood Disorder
+Sample 4,5,4,1,10,7,15,2,0,4,0,1,2,4,Mild Anxiety
+Sample 5,20,12,10,22,15,30,8,2,10,3,4,6,6,OCD/Related Disorder
+Sample 6,1,1,0,2,3,4,0,0,1,0,0,1,1,No Diagnosis
+Sample 7,10,6,2,14,10,20,4,1,6,1,2,3,5,Mood Disorder
+Sample 8,27,20,20,27,30,40,20,4,18,8,7,9,9,Severe Psychopathology
+Sample 9,3,2,1,5,6,10,3,0,3,0,1,2,3,No Diagnosis
+Sample 10,18,10,5,20,14,32,7,2,8,2,3,5,7,Anxiety Disorder
+Sample 11,22,15,12,25,18,38,12,3,12,4,5,7,8,Severe Mood Disorder
+Sample 12,8,5,2,12,9,18,4,1,5,1,2,3,5,Mild Anxiety
+Sample 13,12,7,3,16,11,22,6,2,7,2,3,4,6,OCD/Related Disorder
+Sample 14,2,2,0,4,5,8,1,0,3,0,1,1,2,No Diagnosis
+Sample 15,16,9,4,19,13,28,6,1,9,2,3,5,7,Anxiety Disorder
+Sample 16,26,19,18,26,29,39,18,4,17,7,6,9,9,Severe Psychopathology
+Sample 17,4,3,1,7,8,14,2,0,4,0,1,2,3,No Diagnosis
+Sample 18,17,11,6,21,16,35,9,3,11,3,4,6,8,OCD/Related Disorder
+Sample 19,21,14,11,24,17,37,11,4,14,5,5,7,9,Severe Mood Disorder
+Sample 20,6,5,2,11,10,20,3,1,6,1,2,3,4,Mood Disorder
+Sample 21,14,8,3,17,12,26,5,2,8,2,3,4,6,Anxiety Disorder
+Sample 22,23,16,16,23,26,36,16,4,16,6,5,8,9,Severe Psychopathology
+Sample 23,7,6,2,13,11,22,4,1,7,1,2,4,5,Mood Disorder
+Sample 24,19,13,8,23,15,34,9,3,13,4,4,6,8,OCD/Related Disorder
+Sample 25,24,17,14,26,20,39,14,4,15,5,5,8,9,Severe Mood Disorder
+Sample 26,1,1,0,3,4,5,1,0,2,0,1,1,2,No Diagnosis
+Sample 27,15,8,3,18,12,25,5,1,5,1,2,4,3,Anxiety Disorder
+Sample 28,25,18,15,8,22,35,15,3,15,5,5,8,7,Severe Mood Disorder
+Sample 29,5,4,1,10,7,15,2,0,4,0,1,2,4,Mild Anxiety
+Sample 30,20,12,10,22,15,30,8,2,10,3,4,6,6,OCD/Related Disorder
+Sample 31,1,1,0,2,3,4,0,0,1,0,0,1,1,No Diagnosis
+Sample 32,10,6,2,14,10,20,4,1,6,1,2,3,5,Mood Disorder
+Sample 33,27,20,20,27,30,40,20,4,18,8,7,9,9,Severe Psychopathology
+Sample 34,3,2,1,5,6,10,3,0,3,0,1,2,3,No Diagnosis
+Sample 35,18,10,5,20,14,32,7,2,8,2,3,5,7,Anxiety Disorder
+Sample 36,22,15,12,25,18,38,12,3,12,4,5,7,8,Severe Mood Disorder
+Sample 37,8,5,2,12,9,18,4,1,5,1,2,3,5,Mild Anxiety
+Sample 38,12,7,3,16,11,22,6,2,7,2,3,4,6,OCD/Related Disorder
+Sample 39,2,2,0,4,5,8,1,0,3,0,1,1,2,No Diagnosis
+Sample 40,16,9,4,19,13,28,6,1,9,2,3,5,7,Anxiety Disorder
+Sample 41,26,19,18,26,29,39,18,4,17,7,6,9,9,Severe Psychopathology
+Sample 42,4,3,1,7,8,14,2,0,4,0,1,2,3,No Diagnosis
+Sample 43,17,11,6,21,16,35,9,3,11,3,4,6,8,OCD/Related Disorder
+Sample 44,21,14,11,24,17,37,11,4,14,5,5,7,9,Severe Mood Disorder
+Sample 45,6,5,2,11,10,20,3,1,6,1,2,3,4,Mood Disorder
+Sample 46,14,8,3,17,12,26,5,2,8,2,3,4,6,Anxiety Disorder
+Sample 47,23,16,16,23,26,36,16,4,16,6,5,8,9,Severe Psychopathology
+Sample 48,7,6,2,13,11,22,4,1,7,1,2,4,5,Mood Disorder
+Sample 49,19,13,8,23,15,34,9,3,13,4,4,6,8,OCD/Related Disorder
+Sample 50,24,17,14,26,20,39,14,4,15,5,5,8,9,Severe Mood Disorder
+Sample 51,1,1,0,3,4,5,1,0,2,0,1,1,2,No Diagnosis
+Sample 52,15,8,3,18,12,25,5,1,5,1,2,4,3,Anxiety Disorder
+Sample 53,25,18,15,8,22,35,15,3,15,5,5,8,7,Severe Mood Disorder
+Sample 54,5,4,1,10,7,15,2,0,4,0,1,2,4,Mild Anxiety
+Sample 55,20,12,10,22,15,30,8,2,10,3,4,6,6,OCD/Related Disorder
+Sample 56,1,1,0,2,3,4,0,0,1,0,0,1,1,No Diagnosis
+Sample 57,10,6,2,14,10,20,4,1,6,1,2,3,5,Mood Disorder
+Sample 58,27,20,20,27,30,40,20,4,18,8,7,9,9,Severe Psychopathology
+Sample 59,3,2,1,5,6,10,3,0,3,0,1,2,3,No Diagnosis
+Sample 60,18,10,5,20,14,32,7,2,8,2,3,5,7,Anxiety Disorder
