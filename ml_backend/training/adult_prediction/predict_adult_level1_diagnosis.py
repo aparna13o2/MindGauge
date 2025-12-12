@@ -28,8 +28,7 @@ def predict_diagnosis(domain_scores):
     FEATURE_COLUMNS = [
         'Depression_Score', 'Anger_Score', 'Mania_Score', 'Anxiety_Score', 
         'Somatic_Score', 'Sleep_Disturbance_Score', 'Repetitive_Thoughts_Score',
-        'Substance_Use_Score', 'Inattention_Score', 'Psychosis_Score', 
-        'Dissociation_Score', 'Personality_Functioning_Score', 'Impulsivity_Score'
+        'Substance_Use_Score', 'Suicidal_Score', 'Psychosis_Score','Memory_Score','Dissociation_Score', 'Personality_Functioning_Score'
     ]
     
     if len(domain_scores) != len(FEATURE_COLUMNS):
@@ -58,18 +57,17 @@ def check_level2_referrals_dsm5(domain_scores):
         'Sleep_Disturbance_Score': MILD_THRESHOLD, 
         'Repetitive_Thoughts_Score': MILD_THRESHOLD, 
         'Substance_Use_Score': SLIGHT_THRESHOLD, 
-        'Inattention_Score': MILD_THRESHOLD, 
-        'Psychosis_Score': SLIGHT_THRESHOLD, 
+        'Suicidal_Score': SLIGHT_THRESHOLD,
+        'Psychosis_Score': SLIGHT_THRESHOLD,
+        'Memory_Score': MILD_THRESHOLD,
         'Dissociation_Score': MILD_THRESHOLD, 
-        'Personality_Functioning_Score': MILD_THRESHOLD, 
-        'Impulsivity_Score': MILD_THRESHOLD,
+        'Personality_Functioning_Score': MILD_THRESHOLD
     }
     
     FEATURE_NAMES = [
         'Depression_Score', 'Anger_Score', 'Mania_Score', 'Anxiety_Score', 
         'Somatic_Score', 'Sleep_Disturbance_Score', 'Repetitive_Thoughts_Score',
-        'Substance_Use_Score', 'Inattention_Score', 'Psychosis_Score', 
-        'Dissociation_Score', 'Personality_Functioning_Score', 'Impulsivity_Score'
+        'Substance_Use_Score', 'Suicidal_Score', 'Psychosis_Score','Memory_Score','Dissociation_Score', 'Personality_Functioning_Score'
     ]
 
     score_map = dict(zip(FEATURE_NAMES, domain_scores))

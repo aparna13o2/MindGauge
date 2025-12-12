@@ -28,8 +28,7 @@ if __name__ == '__main__':
     FEATURE_COLUMNS = [
         'Depression_Score', 'Anger_Score', 'Mania_Score', 'Anxiety_Score', 
         'Somatic_Score', 'Sleep_Disturbance_Score', 'Repetitive_Thoughts_Score',
-        'Substance_Use_Score', 'Inattention_Score', 'Psychosis_Score', 
-        'Dissociation_Score', 'Personality_Functioning_Score', 'Impulsivity_Score'
+        'Substance_Use_Score', 'Suicidal_Score', 'Psychosis_Score','Memory_Score','Dissociation_Score', 'Personality_Functioning_Score'
     ]
     TARGET_COLUMN = "Clinical_Diagnosis" # The original multi-class column
     

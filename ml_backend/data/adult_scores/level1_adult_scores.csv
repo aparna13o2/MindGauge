@@ -1,4 +1,4 @@
-Sample,Depression_Score,Anger_Score,Mania_Score,Anxiety_Score,Somatic_Score,Sleep_Disturbance_Score,Repetitive_Thoughts_Score,Substance_Use_Score,Inattention_Score,Psychosis_Score,Dissociation_Score,Personality_Functioning_Score,Impulsivity_Score,Clinical_Diagnosis
+Sample,Depression_Score,Anger_Score,Mania_Score,Anxiety_Score,Somatic_Score,Sleep_Disturbance_Score,Repetitive_Thoughts_Score,Substance_Use_Score,Suicidal_Score,Psychosis_Score,Memory_Score,Dissociation_Score,Personality_Functioning_Score,Clinical_Diagnosis
 Sample 1,4,4,4,4,4,4,4,4,4,4,4,4,4,Severe Psychopathology
 Sample 2,4,4,3,4,4,4,3,3,4,3,4,3,4,Severe Psychopathology
 Sample 3,4,3,4,4,3,4,4,4,3,4,4,4,3,Severe Psychopathology
