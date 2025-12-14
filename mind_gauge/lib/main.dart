@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
+import 'services/api_service.dart';
 
 // --- MOCK SERVICE LAYER AND DATA STRUCTURES ---
 class UserProfile {
@@ -624,7 +625,7 @@ State<LoginScreen> createState() => _LoginScreenState();
 
 class _LoginScreenState extends State<LoginScreen> {
 final GlobalKey<FormState> _formKey = GlobalKey<FormState>(); 
-final MockAuthService _authService = MockAuthService();
+final ApiService _authService = ApiService();
 final TextEditingController _emailController = TextEditingController();
 final TextEditingController _passwordController = TextEditingController();
 bool _isLoading = false;
@@ -747,7 +748,8 @@ State<RegisterScreen> createState() => _RegisterScreenState();
 
 class _RegisterScreenState extends State<RegisterScreen> {
 final GlobalKey<FormState> _formKey = GlobalKey<FormState>(); // NEW
-final MockAuthService _authService = MockAuthService();
+final ApiService _authService = ApiService();
+
 final TextEditingController _emailController = TextEditingController();
 final TextEditingController _nameController = TextEditingController();
 final TextEditingController _ageController = TextEditingController();

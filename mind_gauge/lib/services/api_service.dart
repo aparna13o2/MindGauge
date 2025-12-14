@@ -1,18 +1,21 @@
 import 'dart:convert';
+
 import 'package:http/http.dart' as http;
 
 class ApiService {
-  static const String baseUrl = "http://127.0.0.1:5000"; 
-  // use your local IP when testing on Android device
+
+  static String baseUrl =
+       "http://localhost:5000";
 
   // --- LOGIN ---
   Future<Map<String, dynamic>?> login(String email, String password) async {
-    final url = Uri.parse("$baseUrl/login");
-
     final response = await http.post(
-      url,
+      Uri.parse("$baseUrl/login"),
       headers: {"Content-Type": "application/json"},
-      body: jsonEncode({"email": email, "password": password}),
+      body: jsonEncode({
+        "email": email,
+        "password": password,
+      }),
     );
 
     if (response.statusCode == 200) {
@@ -24,18 +27,18 @@ class ApiService {
   // --- REGISTER ---
   Future<bool> register(
       String email, String name, String age, String password, String location) async {
-    final url = Uri.parse("$baseUrl/register");
 
     final response = await http.post(
-      url,
+      Uri.parse("$baseUrl/register"),
       headers: {"Content-Type": "application/json"},
       body: jsonEncode({
-        "email": email,
-        "name": name,
-        "age": age,
-        "password": password,
-        "location": location,
+         "name": name,
+         "email": email,
+         "password": password,
+         "age": age,
+         "location": location,
       }),
+
     );
 
     return response.statusCode == 201;
