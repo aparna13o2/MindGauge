@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1014030563010",
+    "project_id": "mindgauge-13cf8",
+    "storage_bucket": "mindgauge-13cf8.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1014030563010:android:7d78c42b8cbc6e537a6d5b",
+        "android_client_info": {
+          "package_name": "com.example.mind_gauge"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDJgKRDL0d3em4L6_eOvIOlE_S29kL8BJo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
