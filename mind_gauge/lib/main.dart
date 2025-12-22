@@ -4,13 +4,8 @@ import 'dart:convert';
 import 'firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart'; 
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:http/http.dart' as http; // Keeping http import for future API calls
-<<<<<<< HEAD
+import 'package:http/http.dart' as http;
 import 'package:cloud_firestore/cloud_firestore.dart';
-
-=======
-import 'firebase_options.dart';
->>>>>>> 93b11f763332b0d580854ccf075f38e09e63d8c8
 // --- CONFIGURATION ---
 // Global instance of FirebaseAuth
 final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -530,17 +525,14 @@ const TextStyle kSubtitleStyle = TextStyle(
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  
+  // Use this clean version and delete all the conflict symbols
   await Firebase.initializeApp(
-<<<<<<< HEAD
-  options: DefaultFirebaseOptions.currentPlatform,
-);
-=======
     options: DefaultFirebaseOptions.currentPlatform,
   );
->>>>>>> 93b11f763332b0d580854ccf075f38e09e63d8c8
+  
   runApp(const MindGaugeApp());
 }
-
 class MindGaugeApp extends StatelessWidget {
   const MindGaugeApp({super.key});
 
