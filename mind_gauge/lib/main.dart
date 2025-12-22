@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
 import 'dart:convert';
+import 'firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart'; 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:http/http.dart' as http; // Keeping http import for future API calls
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 // --- CONFIGURATION ---
 // Global instance of FirebaseAuth
@@ -33,21 +35,22 @@ class UserProfile {
 }
 
 class FirebaseUserService {
-  // MOCK: This map simulates a Firestore/Realtime Database collection
-  static final Map<String, Map<String, dynamic>> _userDbMock = {};
+  final FirebaseFirestore _db = FirebaseFirestore.instance;
 
+  // Saves user details to a 'users' collection using their unique UID
   Future<void> saveUserDetails(String userId, String name, int age, String location) async {
-    await Future.delayed(const Duration(milliseconds: 200)); 
-    _userDbMock[userId] = {
+    await _db.collection('users').doc(userId).set({
       'name': name,
       'age': age,
       'location': location,
-    };
+      'createdAt': FieldValue.serverTimestamp(),
+    });
   }
 
+  // Fetches user details from Firestore
   Future<Map<String, dynamic>?> getUserDetails(String userId) async {
-    await Future.delayed(const Duration(milliseconds: 200)); 
-    return _userDbMock[userId];
+    DocumentSnapshot doc = await _db.collection('users').doc(userId).get();
+    return doc.data() as Map<String, dynamic>?;
   }
 }
 
@@ -400,74 +403,52 @@ class JournalEntry {
 
 // --- MOCK SERVICE LAYER FOR JOURNALING/SENTIMENT ---
 
-class MockSentimentService {
-  SentimentResult analyze(String text) {
-    if (text.isEmpty) {
-      return const SentimentResult("⚪", 0.0, "No entry");
-    }
-    
-    final isNegative = text.toLowerCase().contains('down') || text.toLowerCase().contains('overwhelming') || text.toLowerCase().contains('sad');
-    final isPositive = text.toLowerCase().contains('happy') || text.toLowerCase().contains('great') || text.toLowerCase().contains('fun');
+class FirestoreJournalService {
+  final FirebaseFirestore _db = FirebaseFirestore.instance;
 
-    if (isNegative) {
+  // Save entry to users -> {userId} -> journals -> {dateId}
+  Future<void> saveEntry(String userId, JournalEntry entry) async {
+    final dateId = "${entry.date.year}-${entry.date.month}-${entry.date.day}";
+    
+    await _db.collection('users').doc(userId).collection('journals').doc(dateId).set({
+      'text': entry.text,
+      'sentimentEmoji': entry.sentiment.emoji,
+      'sentimentScore': entry.sentiment.score,
+      'sentimentDescription': entry.sentiment.description,
+      'timestamp': entry.date,
+    });
+  }
+
+  // Fetch all journals for a specific user as a real-time stream
+  Stream<List<JournalEntry>> getJournalStream(String userId) {
+    return _db.collection('users').doc(userId).collection('journals')
+        .orderBy('timestamp', descending: true)
+        .snapshots()
+        .map((snapshot) => snapshot.docs.map((doc) {
+              final data = doc.data();
+              return JournalEntry(
+                date: (data['timestamp'] as Timestamp).toDate(),
+                text: data['text'],
+                sentiment: SentimentResult(
+                  data['sentimentEmoji'] ?? "😐",
+                  (data['sentimentScore'] ?? 0.0).toDouble(),
+                  data['sentimentDescription'] ?? "Neutral",
+                ),
+              );
+            }).toList());
+  }
+
+  // Local helper for analysis since we removed the mock service
+  SentimentResult analyze(String text) {
+    if (text.isEmpty) return const SentimentResult("⚪", 0.0, "No entry");
+    final lowText = text.toLowerCase();
+    if (lowText.contains('sad') || lowText.contains('down')) {
       return const SentimentResult("😞", -0.7, "Feeling low");
-    } else if (isPositive) {
+    }
+    if (lowText.contains('happy') || lowText.contains('great')) {
       return const SentimentResult("😊", 0.8, "Positive mood");
     }
-    
-    final randomScore = Random().nextDouble() * 2 - 1;
-    if (randomScore > 0.6) return const SentimentResult("😄", 0.9, "Very happy");
-    if (randomScore > 0.2) return const SentimentResult("🙂", 0.4, "Content");
-    if (randomScore > -0.2) return const SentimentResult("😐", 0.0, "Neutral");
-    if (randomScore > -0.6) return const SentimentResult("😟", -0.4, "A bit worried");
-    return const SentimentResult("😢", -0.8, "Feeling sad");
-  }
-
-  JournalEntry? getEntry(DateTime date) {
-    final mockEntries = _getMockData();
-    try {
-      return mockEntries.firstWhere(
-          (e) => e.date.isSameDay(date));
-    } catch (e) {
-      return null;
-    }
-  }
-
-  final List<JournalEntry> _persistedEntries = _getMockData(); 
-
-  void saveEntry(JournalEntry entry) {
-    _persistedEntries.removeWhere((e) => e.date.isSameDay(entry.date));
-    _persistedEntries.add(entry);
-    _persistedEntries.sort((a, b) => b.date.compareTo(a.date));
-  }
-
-  List<JournalEntry> getAllEntries() {
-    return List.unmodifiable(_persistedEntries);
-  }
-
-  static List<JournalEntry> _getMockData() {
-    return [
-      JournalEntry(
-          date: DateTime(2025, 10, 2),
-          text: "I felt zero motivation. Stayed inside all day, the hours just melting into one another. The feeling of 'can't start' was overwhelming.",
-          sentiment: const SentimentResult("😞", -0.7, "Feeling low")),
-      JournalEntry(
-          date: DateTime(2025, 10, 3),
-          text: "Had a small win today by cleaning my room. Felt good to accomplish something. Happy to see the sun.",
-          sentiment: const SentimentResult("😊", 0.8, "Positive mood")),
-      JournalEntry(
-          date: DateTime(2025, 10, 4),
-          text: "Very neutral day. Just worked and watched TV. No strong feelings either way.",
-          sentiment: const SentimentResult("😐", 0.0, "Neutral")),
-      JournalEntry(
-          date: DateTime(2025, 10, 7),
-          text: "Anxiety was high today. Worried about an upcoming presentation.",
-          sentiment: const SentimentResult("😟", -0.4, "A bit worried")),
-      JournalEntry(
-          date: DateTime(2025, 10, 13),
-          text: "An important day. Met with a new professional.",
-          sentiment: const SentimentResult("🙂", 0.4, "Content")),
-    ];
+    return const SentimentResult("😐", 0.0, "Neutral");
   }
 }
 
@@ -508,7 +489,9 @@ const TextStyle kSubtitleStyle = TextStyle(
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(
+  options: DefaultFirebaseOptions.currentPlatform,
+);
   runApp(const MindGaugeApp());
 }
 
@@ -1097,36 +1080,22 @@ class MainDashboard extends StatefulWidget {
 }
 
 class _MainDashboardState extends State<MainDashboard> {
-  final MockSentimentService _sentimentService = MockSentimentService();
-  DateTime _focusedDay = DateTime(2025, 10, 13);
-  DateTime _selectedDay = DateTime(2025, 10, 13);
-  List<JournalEntry> _entries = [];
+  final FirestoreJournalService _journalService = FirestoreJournalService();
+  DateTime _focusedDay = DateTime.now();
+  DateTime _selectedDay = DateTime.now();
 
-  @override
-  void initState() {
-    super.initState();
-    _loadEntries();
-  }
-
-  void _loadEntries() {
-    setState(() {
-      _entries = _sentimentService.getAllEntries();
-    });
-  }
-  
-  void _openJournalingScreen(DateTime date) async {
+  void _openJournalingScreen(DateTime date, JournalEntry? existingEntry) async {
     final entry = await Navigator.of(context).push<JournalEntry>(
       MaterialPageRoute(
         builder: (context) => JournalingScreen(
           date: date,
-          initialEntry: _sentimentService.getEntry(date),
+          initialEntry: existingEntry,
         ),
       ),
     );
 
     if (entry != null) {
-      _sentimentService.saveEntry(entry);
-      _loadEntries();
+      await _journalService.saveEntry(widget.userProfile.userId, entry);
       setState(() {
         _selectedDay = entry.date;
         _focusedDay = entry.date;
@@ -1136,109 +1105,104 @@ class _MainDashboardState extends State<MainDashboard> {
 
   @override
   Widget build(BuildContext context) {
-    final JournalEntry? currentEntry = _sentimentService.getEntry(_selectedDay);
+    return StreamBuilder<List<JournalEntry>>(
+      stream: _journalService.getJournalStream(widget.userProfile.userId),
+      builder: (context, snapshot) {
+        final entries = snapshot.data ?? [];
+        JournalEntry? currentEntry;
+        try {
+          currentEntry = entries.firstWhere((e) => e.date.isSameDay(_selectedDay));
+        } catch (_) {}
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('MINDGAUGE'),
-        backgroundColor: AppColors.background,
-        foregroundColor: AppColors.secondary,
-        elevation: 0,
-        actions: const [
-          CustomDrawerButton(), 
-        ],
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(horizontal: 20.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // USER INFO CARD
-            Container(
-              padding: const EdgeInsets.all(16),
-              margin: const EdgeInsets.only(top: 10, bottom: 20),
-              decoration: BoxDecoration(
-                color: AppColors.cardColor,
-                borderRadius: BorderRadius.circular(15),
-                border: Border.all(color: AppColors.primary.withOpacity(0.5)),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('Hello, ${widget.userProfile.name}!', style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: AppColors.secondary)),
-                  const SizedBox(height: 5),
-                  Text('Age: ${widget.userProfile.age} | Location: ${widget.userProfile.location}', style: const TextStyle(fontSize: 14, color: AppColors.text)),
-                ],
-              ),
-            ),
-            
-            // --- CALENDAR SECTION ---
-            const Text(
-              'CALENDAR',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: AppColors.secondary),
-            ),
-            const SizedBox(height: 10),
-            SentimentCalendar(
-              focusedDay: _focusedDay,
-              selectedDay: _selectedDay,
-              journalEntries: _entries,
-              onDaySelected: (selectedDay, focusedDay) {
-                setState(() {
-                  _selectedDay = selectedDay;
-                  _focusedDay = focusedDay; 
-                });
-              },
-            ),
-
-            // --- JOURNAL SNIPPET SECTION ---
-            const SizedBox(height: 30),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
+        return Scaffold(
+          appBar: AppBar(
+            title: const Text('MINDGAUGE'),
+            backgroundColor: AppColors.background,
+            foregroundColor: AppColors.secondary,
+            elevation: 0,
+            actions: const [CustomDrawerButton()],
+          ),
+          body: snapshot.connectionState == ConnectionState.waiting 
+            ? const Center(child: CircularProgressIndicator())
+            : SingleChildScrollView(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
-                      'Journal',
-                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: AppColors.secondary),
+                    _buildUserCard(),
+                    const Text('CALENDAR', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: AppColors.secondary)),
+                    const SizedBox(height: 10),
+                    SentimentCalendar(
+                      focusedDay: _focusedDay,
+                      selectedDay: _selectedDay,
+                      journalEntries: entries,
+                      onDaySelected: (selectedDay, focusedDay) {
+                        setState(() {
+                          _selectedDay = selectedDay;
+                          _focusedDay = focusedDay; 
+                        });
+                      },
                     ),
-                    const SizedBox(width: 8),
-                    Icon(Icons.calendar_month, color: AppColors.secondary.withOpacity(0.7)), 
+                    const SizedBox(height: 30),
+                    _buildJournalHeader(),
+                    JournalSnippetCard(
+                      entry: currentEntry,
+                      selectedDate: _selectedDay,
+                      onTap: () => _openJournalingScreen(_selectedDay, currentEntry),
+                    ),
+                    const SizedBox(height: 30),
+                    _buildAssessmentButton(),
+                    const SizedBox(height: 50),
                   ],
                 ),
-                Text(
-                  '${_selectedDay.day}/${_selectedDay.month}',
-                  style: const TextStyle(fontSize: 16, color: AppColors.text),
-                ),
-              ],
-            ),
-            const SizedBox(height: 10),
-            JournalSnippetCard(
-              entry: currentEntry,
-              selectedDate: _selectedDay,
-              onTap: () => _openJournalingScreen(_selectedDay),
-            ),
-            const SizedBox(height: 30),
-            Center(
-              child: StyledButton(
-                text: 'Start Symptom Check-In',
-                onPressed: () {
-                  // Pass age from user profile
-                  Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => QuestionnaireScreen(userAge: widget.userProfile.age)),
-                   );
-                },
-                color: AppColors.primary,
-                shadowColor: AppColors.primary.withOpacity(0.5),
               ),
-            ),
-            const SizedBox(height: 50),
-          ],
-        ),
+          floatingActionButton: FloatingActionButton(
+            onPressed: () => _openJournalingScreen(DateTime.now(), currentEntry),
+            backgroundColor: AppColors.primary,
+            child: const Icon(Icons.add, color: Colors.white),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildUserCard() {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      margin: const EdgeInsets.only(top: 10, bottom: 20),
+      decoration: BoxDecoration(
+        color: AppColors.cardColor,
+        borderRadius: BorderRadius.circular(15),
+        border: Border.all(color: AppColors.primary.withOpacity(0.5)),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => _openJournalingScreen(DateTime.now()),
-        backgroundColor: AppColors.primary,
-        child: const Icon(Icons.add, color: Colors.white),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text('Hello, ${widget.userProfile.name}!', style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: AppColors.secondary)),
+          const SizedBox(height: 5),
+          Text('Age: ${widget.userProfile.age} | Location: ${widget.userProfile.location}', style: const TextStyle(fontSize: 14, color: AppColors.text)),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildJournalHeader() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        const Text('Journal', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: AppColors.secondary)),
+        Text('${_selectedDay.day}/${_selectedDay.month}', style: const TextStyle(fontSize: 16, color: AppColors.text)),
+      ],
+    );
+  }
+
+  Widget _buildAssessmentButton() {
+    return Center(
+      child: StyledButton(
+        text: 'Start Symptom Check-In',
+        onPressed: () => Navigator.of(context).push(
+          MaterialPageRoute(builder: (context) => QuestionnaireScreen(userAge: widget.userProfile.age)),
+        ),
       ),
     );
   }
@@ -1874,7 +1838,10 @@ class JournalingScreen extends StatefulWidget {
 
 class _JournalingScreenState extends State<JournalingScreen> {
   late final TextEditingController _controller;
-  final MockSentimentService _sentimentService = MockSentimentService();
+  
+  // FIX 1: Change MockSentimentService to FirestoreJournalService
+  final FirestoreJournalService _journalService = FirestoreJournalService(); 
+  
   SentimentResult _currentSentiment = const SentimentResult("⚪", 0.0, "Analyzing...");
 
   @override
@@ -1894,7 +1861,8 @@ class _JournalingScreenState extends State<JournalingScreen> {
       return;
     }
 
-    final analyzedSentiment = _sentimentService.analyze(_controller.text.trim());
+    // FIX 2: Call the analyze method from the new service
+    final analyzedSentiment = _journalService.analyze(_controller.text.trim());
 
     final newEntry = JournalEntry(
       date: widget.date.copyWith(hour: 0, minute: 0, second: 0, millisecond: 0, microsecond: 0),
@@ -1905,7 +1873,6 @@ class _JournalingScreenState extends State<JournalingScreen> {
     Navigator.of(context).pop(newEntry);
   }
   
-  // FIX: Added dispose method
   @override
   void dispose() {
     _controller.dispose();
