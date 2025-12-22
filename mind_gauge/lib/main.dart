@@ -5,8 +5,12 @@ import 'firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart'; 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:http/http.dart' as http; // Keeping http import for future API calls
+<<<<<<< HEAD
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+=======
+import 'firebase_options.dart';
+>>>>>>> 93b11f763332b0d580854ccf075f38e09e63d8c8
 // --- CONFIGURATION ---
 // Global instance of FirebaseAuth
 final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -202,7 +206,21 @@ class MockQuestionnaireService {
     "XII": DomainMetadata("Personality Functioning", 2, "None"),
     "XIII": DomainMetadata("Substance Use", 1, "LEVEL 2-Substance Abuse-Adult (adapted from the NIDA-modified ASSIST)"),
   };
-
+// NEW: Threshold data for Adolescent Level 1 (Age 11-17)
+  static const Map<String, DomainMetadata> _adolescentDomainThresholds = {
+    "I": DomainMetadata("Somatic Symptoms", 2, "LEVEL 2—Somatic Symptom—Child Age 11–17"),
+    "II": DomainMetadata("Sleep Problems", 2, "LEVEL 2—Sleep Disturbance—Child Age 11–17"),
+    "III": DomainMetadata("Inattention", 1, "None"), 
+    "IV": DomainMetadata("Depression", 2, "LEVEL 2—Depression—Child Age 11–17"),
+    "V": DomainMetadata("Anger", 2, "LEVEL 2—Anger—Child Age 11–17"),
+    "VI": DomainMetadata("Irritability", 2, "LEVEL 2—Irritability—Child Age 11–17"),
+    "VII": DomainMetadata("Mania", 2, "LEVEL 2—Mania—Child Age 11–17"),
+    "VIII": DomainMetadata("Anxiety", 2, "LEVEL 2—Anxiety—Child Age 11–17"),
+    "IX": DomainMetadata("Psychosis", 1, "None"), 
+    "X": DomainMetadata("Repetitive Thoughts and Behaviors", 2, "LEVEL 2—Repetitive Thoughts and Behaviors—Child Age 11–17"),
+    "XI": DomainMetadata("Substance Use", 1, "LEVEL 2—Substance Use—Child Age 11–17"), 
+    "XII": DomainMetadata("Suicidal Ideation", 1, "None"), 
+  };
   // CHANGE: Renamed original method to handle Adult questions
   static List<QuestionnaireData> getAdultLevel1Questions() {
     return [
@@ -235,11 +253,33 @@ class MockQuestionnaireService {
   // NEW: Mock list for Adolescent Level 1 questions
   static List<QuestionnaireData> getAdolescentLevel1Questions() {
     return [
-      QuestionnaireData("I", "1", "Did you feel uninterested or bored in things you used to like?"),
-      QuestionnaireData("I", "2", "Did you feel sad or down a lot of the time?"),
-      QuestionnaireData("IV", "3", "Did you feel worried or nervous?"),
-      QuestionnaireData("VI", "4", "Did you have thoughts about hurting yourself?"),
-      QuestionnaireData("IV", "5", "Did you have a lot of trouble sleeping?"),
+      QuestionnaireData("I", "1", "Been bothered by stomachaches, headaches, or other aches and pains?"),
+      QuestionnaireData("I", "2", "Worried about your health or about getting sick?"),
+      QuestionnaireData("II", "3", "Been bothered by not being able to fall asleep or stay asleep?"),
+      QuestionnaireData("III", "4", "Been bothered by not being able to pay attention when in class or doing homework?"),
+      QuestionnaireData("IV", "5", "Had less fun doing things than you used to?"),
+      QuestionnaireData("IV", "6", "Felt sad or depressed for several hours?"),
+      QuestionnaireData("V", "7", "Felt more irritated or easily annoyed than usual?"),
+      // Note: Irritability (VI) and Anger (V) are often paired in this measure
+      QuestionnaireData("VI", "8", "Felt angry or lost your temper?"),
+      QuestionnaireData("VII", "9", "Started lots more projects than usual?"),
+      QuestionnaireData("VII", "10", "Slept less than usual but still had a lot of energy?"),
+      QuestionnaireData("VIII", "11", "Felt nervous, anxious, or scared?"),
+      QuestionnaireData("VIII", "12", "Not been able to stop worrying?"),
+      QuestionnaireData("VIII", "13", "Not been able to do things because they made you feel nervous?"),
+      QuestionnaireData("IX", "14", "Heard voices that no one else could hear?"),
+      QuestionnaireData("IX", "15", "Had visions when you were completely awake?"),
+      QuestionnaireData("X", "16", "Thoughts that you would do something bad or something bad would happen?"),
+      QuestionnaireData("X", "17", "Felt the need to check on things over and over again?"),
+      QuestionnaireData("X", "18", "Worried a lot about things being dirty or having germs?"),
+      QuestionnaireData("X", "19", "Felt you had to do things in a certain way to keep something bad from happening?"),
+      // Substance use questions usually have a threshold of 1 (Slight/Yes)
+      QuestionnaireData("XI", "20", "Had an alcoholic beverage (beer, wine, liquor)?"),
+      QuestionnaireData("XI", "21", "Smoked a cigarette, cigar, or pipe?"),
+      QuestionnaireData("XI", "22", "Used drugs like marijuana, cocaine, or club drugs?"),
+      QuestionnaireData("XI", "23", "Used medicine without a doctor's prescription to get high?"),
+      QuestionnaireData("XII", "24", "Thought about killing yourself or committing suicide?"),
+      QuestionnaireData("XII", "25", "Have you EVER tried to kill yourself?"),
     ];
   }
 
@@ -247,7 +287,7 @@ class MockQuestionnaireService {
   static QuestionnaireType mapAgeToQuestionnaire(int age) {
     if (age >= 18) {
       return QuestionnaireType.adultLevel1;
-    } else if (age >= 11) { // Example cutoff for adolescent version
+    } else if (age >= 11) { 
       return QuestionnaireType.adolescentLevel1;
     }
     return QuestionnaireType.adultLevel1; // Default
@@ -264,9 +304,10 @@ class MockQuestionnaireService {
     return getAdultLevel1Questions();
   }
 
-  Future<List<DomainScore>> submitQuestionnaire(List<QuestionnaireData> responses) async {
+  Future<List<DomainScore>> submitQuestionnaire(List<QuestionnaireData> responses,int age) async {
     await Future.delayed(const Duration(seconds: 1));
-
+    final isAdolescent = mapAgeToQuestionnaire(age) == QuestionnaireType.adolescentLevel1;
+    final thresholdMap = isAdolescent ? _adolescentDomainThresholds : _domainThresholds;
     final Map<String, int> domainHighestScores = {};
 
     for (var item in responses) {
@@ -490,8 +531,13 @@ const TextStyle kSubtitleStyle = TextStyle(
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
+<<<<<<< HEAD
   options: DefaultFirebaseOptions.currentPlatform,
 );
+=======
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+>>>>>>> 93b11f763332b0d580854ccf075f38e09e63d8c8
   runApp(const MindGaugeApp());
 }
 
@@ -686,7 +732,7 @@ class _SplashScreenState extends State<SplashScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Image.asset(
-              'assets/mindgauge_logo.png',
+              'mind_gauge_logo.jpeg',
               width: 150,
               height: 150,
               errorBuilder: (context, error, stackTrace) {
@@ -1309,8 +1355,7 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
       _isLoading = true;
     });
 
-    final List<DomainScore> results = await _service.submitQuestionnaire(_questions);
-
+final List<DomainScore> results = await _service.submitQuestionnaire(_questions, widget.userAge);
     setState(() {
       _isLoading = false;
     });
