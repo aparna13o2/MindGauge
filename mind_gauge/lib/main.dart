@@ -118,9 +118,9 @@ class AuthService {
 class DomainMetadata {
   final String domainName;
   final int thresholdScore; 
-  final String level2Measure;
+  final String Level2AdultMeasure;
 
-  const DomainMetadata(this.domainName, this.thresholdScore, this.level2Measure);
+  const DomainMetadata(this.domainName, this.thresholdScore, this.Level2AdultMeasure);
 }
 
 abstract class BaseQuestionnaireData {
@@ -146,23 +146,30 @@ class QuestionnaireData extends BaseQuestionnaireData {
   );
 }
 
-class Level2QuestionnaireData extends BaseQuestionnaireData {
-  Level2QuestionnaireData(String domain, String questionNumber, String questionText) : super(
+class Level2AdultQuestionnaireData extends BaseQuestionnaireData {
+  Level2AdultQuestionnaireData(String domain, String questionNumber, String questionText) : super(
     domain: domain, 
     questionNumber: questionNumber, 
     questionText: questionText, 
     score: 0.0
   );
 }
-
+class Level2AdolescentQuestionnaireData extends BaseQuestionnaireData {
+  Level2AdolescentQuestionnaireData(String domain, String questionNumber, String questionText) : super(
+    domain: domain, 
+    questionNumber: questionNumber, 
+    questionText: questionText, 
+    score: 0.0
+  );
+}
 class DomainScore {
   final String domain;
   final String domainName;
   final int highestScore;
   final int thresholdScore; 
-  final String level2Measure;
+  final String Level2AdultMeasure;
 
-  DomainScore(this.domain, this.domainName, this.highestScore, this.thresholdScore, this.level2Measure);
+  DomainScore(this.domain, this.domainName, this.highestScore, this.thresholdScore, this.Level2AdultMeasure);
 
   String get severity {
     switch (highestScore) {
@@ -176,7 +183,7 @@ class DomainScore {
 
   @override
   String toString() {
-    return "${domainName}: ${severity} (Score: $highestScore). Follow-up needed: ${level2Measure}";
+    return "${domainName}: ${severity} (Score: $highestScore). Follow-up needed: ${Level2AdultMeasure}";
   }
 }
 
@@ -327,7 +334,7 @@ class MockQuestionnaireService {
         metadata.domainName,
         highestScore,
         metadata.thresholdScore,
-        metadata.level2Measure,
+        metadata.Level2AdultMeasure,
       ));
       }
     });
@@ -337,78 +344,183 @@ class MockQuestionnaireService {
     return results;
   }
   
-  static final Map<String, List<Level2QuestionnaireData>> _level2Questions = {
+  static final Map<String, List<Level2AdultQuestionnaireData>> _level2AdultQuestions = {
     "Depression": [
-      Level2QuestionnaireData("I", "D1", "I felt depressed."),
-      Level2QuestionnaireData("I", "D2", "I felt worthless."),
-      Level2QuestionnaireData("I", "D3", "I felt sad."),
-      Level2QuestionnaireData("I", "D4", "I felt hopeless."),
-      Level2QuestionnaireData("I", "D5", "I felt like a failure."),
-      Level2QuestionnaireData("I", "D6", "I felt that I have no future."),
-      Level2QuestionnaireData("I", "D7", "I felt helpless."),
-      Level2QuestionnaireData("I", "D8", "I felt discouraged."),
+      Level2AdultQuestionnaireData("I", "D1", "I felt depressed."),
+      Level2AdultQuestionnaireData("I", "D2", "I felt worthless."),
+      Level2AdultQuestionnaireData("I", "D3", "I felt sad."),
+      Level2AdultQuestionnaireData("I", "D4", "I felt hopeless."),
+      Level2AdultQuestionnaireData("I", "D5", "I felt like a failure."),
+      Level2AdultQuestionnaireData("I", "D6", "I felt that I have no future."),
+      Level2AdultQuestionnaireData("I", "D7", "I felt helpless."),
+      Level2AdultQuestionnaireData("I", "D8", "I felt discouraged."),
     ],
     "Anger": [
-      Level2QuestionnaireData("II", "A1", "In the past seven days were you irritated more than people knew?"),
-      Level2QuestionnaireData("II", "A2", "In the past seven days, have you felt angry?"),
-      Level2QuestionnaireData("II", "A3", " In the past seven days, have you felt like you were ready to explode?"),
-      Level2QuestionnaireData("II", "A4", "In the past seven days, were you grouchy?"),
-      Level2QuestionnaireData("II", "A5", "In the past seven days, have you felt annoyed?"),
+      Level2AdultQuestionnaireData("II", "A1", "In the past seven days were you irritated more than people knew?"),
+      Level2AdultQuestionnaireData("II", "A2", "In the past seven days, have you felt angry?"),
+      Level2AdultQuestionnaireData("II", "A3", " In the past seven days, have you felt like you were ready to explode?"),
+      Level2AdultQuestionnaireData("II", "A4", "In the past seven days, were you grouchy?"),
+      Level2AdultQuestionnaireData("II", "A5", "In the past seven days, have you felt annoyed?"),
     ],
     "Anxiety": [
-      Level2QuestionnaireData("IV", "AN1", "In the past seven days, have you felt fearful?"),
-      Level2QuestionnaireData("IV", "AN2", "In the past seven days, have you felt anxious?"),
-      Level2QuestionnaireData("IV", "AN3", "In the past seven days, have you felt worried?"),
-      Level2QuestionnaireData("IV", "AN4", "In the past seven days, have you found it hard to focus on anything other than my anxiety?"),
-      Level2QuestionnaireData("IV", "AN5", "In the past seven days, have you felt nervous?"),
-      Level2QuestionnaireData("IV", "AN6", "In the past seven days, have you felt uneasy?"),
-      Level2QuestionnaireData("IV", "AN7", "In the past seven days, have you felt tense?"),
+      Level2AdultQuestionnaireData("IV", "AN1", "In the past seven days, have you felt fearful?"),
+      Level2AdultQuestionnaireData("IV", "AN2", "In the past seven days, have you felt anxious?"),
+      Level2AdultQuestionnaireData("IV", "AN3", "In the past seven days, have you felt worried?"),
+      Level2AdultQuestionnaireData("IV", "AN4", "In the past seven days, have you found it hard to focus on anything other than my anxiety?"),
+      Level2AdultQuestionnaireData("IV", "AN5", "In the past seven days, have you felt nervous?"),
+      Level2AdultQuestionnaireData("IV", "AN6", "In the past seven days, have you felt uneasy?"),
+      Level2AdultQuestionnaireData("IV", "AN7", "In the past seven days, have you felt tense?"),
     ],
     "Somatic Symptoms": [
-      Level2QuestionnaireData("V", "S1", "During the past 7 days, how much have you been bothered by Stomach Pain?"),
-      Level2QuestionnaireData("V", "S2", "During the past 7 days, how much have you been bothered by Back Pain?"),
-      Level2QuestionnaireData("V", "S3", "During the past 7 days, how much have you been bothered by Pain in your arms,legs,or joints(knees,hips,etc.)?"),
-      Level2QuestionnaireData("V", "S4", "During the past 7 days, how much have you been bothered by Menstrual cramps or other problems with your periods(WOMEN ONLY)?"),
-      Level2QuestionnaireData("V", "S5", "During the past 7 days, how much have you been bothered by Headaches?"),
-      Level2QuestionnaireData("V", "S6", " During the past 7 days, how much have you been bothered by Chest Pain?"),
-      Level2QuestionnaireData("V", "S7", "During the past 7 days, how much have you been bothered by Dizziness?"),
-      Level2QuestionnaireData("V", "S8", "During the past 7 days, how much have you been bothered by Fainting Spells?"),
-      Level2QuestionnaireData("V", "S9", "During the past 7 days, how much have you been bothered by Feeling your heart pound or race?"),
-      Level2QuestionnaireData("V", "S10", " During the past 7 days, how much have you been bothered by Shortness of breath?"),
-      Level2QuestionnaireData("V", "S11", "During the past 7 days, how much have you been bothered by pain or problems during sexual intercourse?"),
-      Level2QuestionnaireData("V", "S12", "During the past 7 days, how much have you been bothered by constipation,loose bowels or diarrhea?"),
-      Level2QuestionnaireData("V", "S13", " During the past 7 days, how much have you been bothered by Nausea,gas or indigestion?"),
-      Level2QuestionnaireData("V", "S14", "During the past 7 days, how much have you been bothered by feeling tired or having low energy?"),
-      Level2QuestionnaireData("V", "S15", "During the past 7 days, how much have you been bothered by trouble sleeping?"),
+      Level2AdultQuestionnaireData("V", "S1", "During the past 7 days, how much have you been bothered by Stomach Pain?"),
+      Level2AdultQuestionnaireData("V", "S2", "During the past 7 days, how much have you been bothered by Back Pain?"),
+      Level2AdultQuestionnaireData("V", "S3", "During the past 7 days, how much have you been bothered by Pain in your arms,legs,or joints(knees,hips,etc.)?"),
+      Level2AdultQuestionnaireData("V", "S4", "During the past 7 days, how much have you been bothered by Menstrual cramps or other problems with your periods(WOMEN ONLY)?"),
+      Level2AdultQuestionnaireData("V", "S5", "During the past 7 days, how much have you been bothered by Headaches?"),
+      Level2AdultQuestionnaireData("V", "S6", " During the past 7 days, how much have you been bothered by Chest Pain?"),
+      Level2AdultQuestionnaireData("V", "S7", "During the past 7 days, how much have you been bothered by Dizziness?"),
+      Level2AdultQuestionnaireData("V", "S8", "During the past 7 days, how much have you been bothered by Fainting Spells?"),
+      Level2AdultQuestionnaireData("V", "S9", "During the past 7 days, how much have you been bothered by Feeling your heart pound or race?"),
+      Level2AdultQuestionnaireData("V", "S10", " During the past 7 days, how much have you been bothered by Shortness of breath?"),
+      Level2AdultQuestionnaireData("V", "S11", "During the past 7 days, how much have you been bothered by pain or problems during sexual intercourse?"),
+      Level2AdultQuestionnaireData("V", "S12", "During the past 7 days, how much have you been bothered by constipation,loose bowels or diarrhea?"),
+      Level2AdultQuestionnaireData("V", "S13", " During the past 7 days, how much have you been bothered by Nausea,gas or indigestion?"),
+      Level2AdultQuestionnaireData("V", "S14", "During the past 7 days, how much have you been bothered by feeling tired or having low energy?"),
+      Level2AdultQuestionnaireData("V", "S15", "During the past 7 days, how much have you been bothered by trouble sleeping?"),
     ],
     "Sleep Problems": [
-      Level2QuestionnaireData("VIII", "SD1", "In the past seven days, was your sleep restless?"),
-      Level2QuestionnaireData("VIII", "SD2", "In the past seven days, were you satisfied with your sleep?"),
-      Level2QuestionnaireData("VIII", "SD3", "In the past seven days, was your sleep refreshing?"),
-      Level2QuestionnaireData("VIII", "SD4", "In the past seven days, have you had difficulty falling asleep?"),
-      Level2QuestionnaireData("VIII", "SD5", "In the past seven days, have you had trouble staying asleep?"),
-      Level2QuestionnaireData("VIII", "SD6", "In the past seven days, have you had trouble sleeping"),
-      Level2QuestionnaireData("VIII", "SD7", "In the past seven days, have you got enough sleep?"),
-      Level2QuestionnaireData("VIII", "SD8", " In the past seven days, how was your sleep quality?"),
+      Level2AdultQuestionnaireData("VIII", "SD1", "In the past seven days, was your sleep restless?"),
+      Level2AdultQuestionnaireData("VIII", "SD2", "In the past seven days, were you satisfied with your sleep?"),
+      Level2AdultQuestionnaireData("VIII", "SD3", "In the past seven days, was your sleep refreshing?"),
+      Level2AdultQuestionnaireData("VIII", "SD4", "In the past seven days, have you had difficulty falling asleep?"),
+      Level2AdultQuestionnaireData("VIII", "SD5", "In the past seven days, have you had trouble staying asleep?"),
+      Level2AdultQuestionnaireData("VIII", "SD6", "In the past seven days, have you had trouble sleeping"),
+      Level2AdultQuestionnaireData("VIII", "SD7", "In the past seven days, have you got enough sleep?"),
+      Level2AdultQuestionnaireData("VIII", "SD8", " In the past seven days, how was your sleep quality?"),
     ],
     "Repetitive Thoughts and Behaviors": [
-      Level2QuestionnaireData("X", "R1", "On average, how much time is occupied by unwanted thoughts or behaviours each day?"),
-      Level2QuestionnaireData("X", "R2", " How much distress do these thoughts or behaviours cause you?"),
-      Level2QuestionnaireData("X", "R3", "How hard is it for you to control these thoughts or behaviours?"),
-      Level2QuestionnaireData("X", "R4", "How much do these thoughts or behaviours cause you to avoid doing anything , going any place, or being with anyone?"),
-      Level2QuestionnaireData("X", "R5", "How much do these thoughts or behaviours interfere with school,work,or your social or family life?"),
+      Level2AdultQuestionnaireData("X", "R1", "On average, how much time is occupied by unwanted thoughts or behaviours each day?"),
+      Level2AdultQuestionnaireData("X", "R2", " How much distress do these thoughts or behaviours cause you?"),
+      Level2AdultQuestionnaireData("X", "R3", "How hard is it for you to control these thoughts or behaviours?"),
+      Level2AdultQuestionnaireData("X", "R4", "How much do these thoughts or behaviours cause you to avoid doing anything , going any place, or being with anyone?"),
+      Level2AdultQuestionnaireData("X", "R5", "How much do these thoughts or behaviours interfere with school,work,or your social or family life?"),
     ],
     "Substance Use": [
-      Level2QuestionnaireData("XIII", "SU1", "During the past TWO WEEKS, about how often did you use Painkillers(like Vicodin) ON YOUR OWN, that is, without a doctor’s prescription, in greater amounts or longer than prescribed?"),
-      Level2QuestionnaireData("XIII", "SU2", "During the past TWO WEEKS, about how often did you use Stimulants(like Ritalin,Adderall) ON YOUR OWN, that is, without a doctor’s prescription, in greater amounts or longer than prescribed?"),
-      Level2QuestionnaireData("XIII", "SU3", "During the past TWO WEEKS, about how often did you use Sedatives or tranquilizers (like sleeping pills or Valium) ON YOUR OWN, that is, without a doctor’s prescription, in greater amounts or longer than prescribed?"),
-      Level2QuestionnaireData("XIII", "SU4", "During the past TWO WEEKS, about how often did you use Marijuana?"),
-      Level2QuestionnaireData("XIII", "SU5", "During the past TWO WEEKS, about how often did you use Cocaine or crack?"),
-      Level2QuestionnaireData("XIII", "SU6", "During the past TWO WEEKS, about how often did you use Club drugs (like ecstasy)?"),
-      Level2QuestionnaireData("XIII", "SU7", "During the past TWO WEEKS, about how often did you use Hallucinogens (like LSD)?"),
-      Level2QuestionnaireData("XIII", "SU8", "During the past TWO WEEKS, about how often did you use Heroin?"),
-      Level2QuestionnaireData("XIII", "SU9", "During the past TWO WEEKS, about how often did you use Inhalants or solvents (like glue)?"),
-      Level2QuestionnaireData("XIII", "SU10", "During the past TWO WEEKS, about how often did you use Methamphetamine (like speed)"),
+      Level2AdultQuestionnaireData("XIII", "SU1", "During the past TWO WEEKS, about how often did you use Painkillers(like Vicodin) ON YOUR OWN, that is, without a doctor’s prescription, in greater amounts or longer than prescribed?"),
+      Level2AdultQuestionnaireData("XIII", "SU2", "During the past TWO WEEKS, about how often did you use Stimulants(like Ritalin,Adderall) ON YOUR OWN, that is, without a doctor’s prescription, in greater amounts or longer than prescribed?"),
+      Level2AdultQuestionnaireData("XIII", "SU3", "During the past TWO WEEKS, about how often did you use Sedatives or tranquilizers (like sleeping pills or Valium) ON YOUR OWN, that is, without a doctor’s prescription, in greater amounts or longer than prescribed?"),
+      Level2AdultQuestionnaireData("XIII", "SU4", "During the past TWO WEEKS, about how often did you use Marijuana?"),
+      Level2AdultQuestionnaireData("XIII", "SU5", "During the past TWO WEEKS, about how often did you use Cocaine or crack?"),
+      Level2AdultQuestionnaireData("XIII", "SU6", "During the past TWO WEEKS, about how often did you use Club drugs (like ecstasy)?"),
+      Level2AdultQuestionnaireData("XIII", "SU7", "During the past TWO WEEKS, about how often did you use Hallucinogens (like LSD)?"),
+      Level2AdultQuestionnaireData("XIII", "SU8", "During the past TWO WEEKS, about how often did you use Heroin?"),
+      Level2AdultQuestionnaireData("XIII", "SU9", "During the past TWO WEEKS, about how often did you use Inhalants or solvents (like glue)?"),
+      Level2AdultQuestionnaireData("XIII", "SU10", "During the past TWO WEEKS, about how often did you use Methamphetamine (like speed)"),
+    ],
+  };
+static final Map<String, List<Level2AdolescentQuestionnaireData>> _level2AdolescentQuestions = {
+    "Somatic Symptoms": [
+      Level2AdolescentQuestionnaireData("1", "S1", "During the past 7 days, how much have you been bothered by Stomach pain? [cite: 5, 6]"),
+      Level2AdolescentQuestionnaireData("1", "S2", "During the past 7 days, how much have you been bothered by Back pain? [cite: 5, 7]"),
+      Level2AdolescentQuestionnaireData("1", "S3", "During the past 7 days, how much have you been bothered by Pain in your arms, legs, or joints (knees, hips, etc.)? [cite: 5, 8]"),
+      Level2AdolescentQuestionnaireData("1", "S4", "During the past 7 days, how much have you been bothered by Headaches? [cite: 5, 9]"),
+      Level2AdolescentQuestionnaireData("1", "S5", "During the past 7 days, how much have you been bothered by Chest pain? [cite: 5, 10]"),
+      Level2AdolescentQuestionnaireData("1", "S6", "During the past 7 days, how much have you been bothered by Dizziness? [cite: 5, 11]"),
+      Level2AdolescentQuestionnaireData("1", "S7", "During the past 7 days, how much have you been bothered by Fainting spells? [cite: 5, 12]"),
+      Level2AdolescentQuestionnaireData("1", "S8", "During the past 7 days, how much have you been bothered by Feeling your heart pound or race? [cite: 5, 13]"),
+      Level2AdolescentQuestionnaireData("1", "S9", "During the past 7 days, how much have you been bothered by Shortness of breath? [cite: 5, 14]"),
+      Level2AdolescentQuestionnaireData("1", "S10", "During the past 7 days, how much have you been bothered by Constipation, loose bowels, or diarrhea? [cite: 5, 15]"),
+      Level2AdolescentQuestionnaireData("1", "S11", "During the past 7 days, how much have you been bothered by Nausea, gas, or indigestion? [cite: 5, 16]"),
+      Level2AdolescentQuestionnaireData("1", "S12", "During the past 7 days, how much have you been bothered by Feeling tired or having low energy? [cite: 5, 17]"),
+      Level2AdolescentQuestionnaireData("1", "S13", "During the past 7 days, how much have you been bothered by Trouble sleeping? [cite: 5, 18]"),
+    ],
+    "Sleep Problems": [
+      Level2AdolescentQuestionnaireData("2", "SD1", "In the past SEVEN (7) DAYS, my sleep was restless. [cite: 22, 23]"),
+      Level2AdolescentQuestionnaireData("2", "SD2", "In the past SEVEN (7) DAYS, I was satisfied with my sleep. [cite: 22, 24]"),
+      Level2AdolescentQuestionnaireData("2", "SD3", "In the past SEVEN (7) DAYS, my sleep was refreshing. [cite: 22, 25]"),
+      Level2AdolescentQuestionnaireData("2", "SD4", "In the past SEVEN (7) DAYS, I had difficulty falling asleep. [cite: 22, 26]"),
+      Level2AdolescentQuestionnaireData("2", "SD5", "In the past SEVEN (7) DAYS, I had trouble staying asleep. [cite: 22, 27]"),
+      Level2AdolescentQuestionnaireData("2", "SD6", "In the past SEVEN (7) DAYS, I had trouble sleeping. [cite: 22, 28]"),
+      Level2AdolescentQuestionnaireData("2", "SD7", "In the past SEVEN (7) DAYS, I got enough sleep. [cite: 22, 29]"),
+      Level2AdolescentQuestionnaireData("2", "SD8", "In the past SEVEN (7) DAYS, my sleep quality was... [cite: 22, 30]"),
+    ],
+    "Depression": [
+      Level2AdolescentQuestionnaireData("3", "D1", "In the past SEVEN (7) DAYS, I could not stop feeling sad. [cite: 33, 34]"),
+      Level2AdolescentQuestionnaireData("3", "D2", "In the past SEVEN (7) DAYS, I felt alone. [cite: 33, 35]"),
+      Level2AdolescentQuestionnaireData("3", "D3", "In the past SEVEN (7) DAYS, I felt everything in my life went wrong. [cite: 33, 36]"),
+      Level2AdolescentQuestionnaireData("3", "D4", "In the past SEVEN (7) DAYS, I felt like I couldn't do anything right. [cite: 33, 37]"),
+      Level2AdolescentQuestionnaireData("3", "D5", "In the past SEVEN (7) DAYS, I felt lonely. [cite: 33, 38]"),
+      Level2AdolescentQuestionnaireData("3", "D6", "In the past SEVEN (7) DAYS, I felt sad. [cite: 33, 39]"),
+      Level2AdolescentQuestionnaireData("3", "D7", "In the past SEVEN (7) DAYS, I felt unhappy. [cite: 33, 40]"),
+      Level2AdolescentQuestionnaireData("3", "D8", "In the past SEVEN (7) DAYS, I thought that my life was bad. [cite: 33, 41]"),
+      Level2AdolescentQuestionnaireData("3", "D9", "In the past SEVEN (7) DAYS, being sad made it hard for me to do things with my friends. [cite: 33, 42]"),
+      Level2AdolescentQuestionnaireData("3", "D10", "In the past SEVEN (7) DAYS, I didn't care about anything. [cite: 33, 43]"),
+      Level2AdolescentQuestionnaireData("3", "D11", "In the past SEVEN (7) DAYS, I felt stressed. [cite: 33, 45]"),
+      Level2AdolescentQuestionnaireData("3", "D12", "In the past SEVEN (7) DAYS, I felt too sad to eat. [cite: 33, 46]"),
+      Level2AdolescentQuestionnaireData("3", "D13", "In the past SEVEN (7) DAYS, I wanted to be by myself. [cite: 33, 47]"),
+      Level2AdolescentQuestionnaireData("3", "D14", "In the past SEVEN (7) DAYS, it was hard for me to have fun. [cite: 33, 48]"),
+    ],
+    "Anger": [
+      Level2AdolescentQuestionnaireData("4", "A1", "In the past SEVEN (7) DAYS, I felt mad. [cite: 51, 52]"),
+      Level2AdolescentQuestionnaireData("4", "A2", "In the past SEVEN (7) DAYS, I was so angry I felt like throwing something. [cite: 51, 53]"),
+      Level2AdolescentQuestionnaireData("4", "A3", "In the past SEVEN (7) DAYS, I was so angry I felt like yelling at somebody. [cite: 51, 54]"),
+      Level2AdolescentQuestionnaireData("4", "A4", "In the past SEVEN (7) DAYS, when I got mad, I stayed mad. [cite: 51, 55]"),
+      Level2AdolescentQuestionnaireData("4", "A5", "In the past SEVEN (7) DAYS, I felt fed up. [cite: 51, 56]"),
+      Level2AdolescentQuestionnaireData("4", "A6", "In the past SEVEN (7) DAYS, I felt upset. [cite: 51, 57]"),
+    ],
+    "Irritability": [
+      Level2AdolescentQuestionnaireData("5", "I1", "In the last SEVEN (7) DAYS, am easily annoyed by others. [cite: 60, 62]"),
+      Level2AdolescentQuestionnaireData("5", "I2", "In the last SEVEN (7) DAYS, often lose my temper. [cite: 60, 63]"),
+      Level2AdolescentQuestionnaireData("5", "I3", "In the last SEVEN (7) DAYS, stay angry for a long time. [cite: 60, 64]"),
+      Level2AdolescentQuestionnaireData("5", "I4", "In the last SEVEN (7) DAYS, am angry most of the time. [cite: 60, 65]"),
+      Level2AdolescentQuestionnaireData("5", "I5", "In the last SEVEN (7) DAYS, get angry frequently. [cite: 60, 66]"),
+      Level2AdolescentQuestionnaireData("5", "I6", "In the last SEVEN (7) DAYS, lose temper easily. [cite: 60, 67]"),
+      Level2AdolescentQuestionnaireData("5", "I7", "In the last SEVEN (7) DAYS, overall irritability causes me problems. [cite: 60, 68]"),
+    ],
+    "Mania": [
+      Level2AdolescentQuestionnaireData("6", "M1", "Do you feel happier or more cheerful than usual? [cite: 70, 73]"),
+      Level2AdolescentQuestionnaireData("6", "M2", "Do you feel more self-confident than usual? [cite: 70, 74]"),
+      Level2AdolescentQuestionnaireData("6", "M3", "Do you need less sleep than usual? [cite: 70, 75]"),
+      Level2AdolescentQuestionnaireData("6", "M4", "Do you talk more than usual? [cite: 70, 76]"),
+      Level2AdolescentQuestionnaireData("6", "M5", "Have you been more active than usual? [cite: 70, 77]"),
+    ],
+    "Anxiety": [
+      Level2AdolescentQuestionnaireData("7", "AN1", "In the past SEVEN (7) DAYS, I felt like something awful might happen. [cite: 80, 81]"),
+      Level2AdolescentQuestionnaireData("7", "AN2", "In the past SEVEN (7) DAYS, I felt nervous. [cite: 80, 82]"),
+      Level2AdolescentQuestionnaireData("7", "AN3", "In the past SEVEN (7) DAYS, I felt scared. [cite: 80, 83]"),
+      Level2AdolescentQuestionnaireData("7", "AN4", "In the past SEVEN (7) DAYS, I felt worried. [cite: 80, 84]"),
+      Level2AdolescentQuestionnaireData("7", "AN5", "In the past SEVEN (7) DAYS, I worried about what could happen to me. [cite: 80, 85]"),
+      Level2AdolescentQuestionnaireData("7", "AN6", "In the past SEVEN (7) DAYS, I worried when I went to bed at night. [cite: 80, 86]"),
+      Level2AdolescentQuestionnaireData("7", "AN7", "In the past SEVEN (7) DAYS, I got scared really easy. [cite: 80, 87]"),
+      Level2AdolescentQuestionnaireData("7", "AN8", "In the past SEVEN (7) DAYS, I was afraid of going to school. [cite: 80, 88]"),
+      Level2AdolescentQuestionnaireData("7", "AN9", "In the past SEVEN (7) DAYS, I was worried I might die. [cite: 80, 89]"),
+      Level2AdolescentQuestionnaireData("7", "AN10", "In the past SEVEN (7) DAYS, I woke up at night scared. [cite: 80, 90]"),
+      Level2AdolescentQuestionnaireData("7", "AN11", "In the past SEVEN (7) DAYS, I worried when I was at home. [cite: 80, 91]"),
+      Level2AdolescentQuestionnaireData("7", "AN12", "In the past SEVEN (7) DAYS, I worried when I was away from home. [cite: 80, 92]"),
+      Level2AdolescentQuestionnaireData("7", "AN13", "In the past SEVEN (7) DAYS, it was hard for me to relax. [cite: 80, 93]"),
+    ],
+    "Repetitive Thoughts and Behaviors": [
+      Level2AdolescentQuestionnaireData("8", "R1", "During the past SEVEN (7) DAYS, on average, how much time is occupied by these thoughts or behaviors each day? [cite: 98, 99]"),
+      Level2AdolescentQuestionnaireData("8", "R2", "During the past SEVEN (7) DAYS, how much do they bother you? [cite: 98, 100]"),
+      Level2AdolescentQuestionnaireData("8", "R3", "During the past SEVEN (7) DAYS, how hard is it for you to control them? [cite: 98, 101]"),
+      Level2AdolescentQuestionnaireData("8", "R4", "During the past SEVEN (7) DAYS, how much do they cause you to avoid doing things, going places or being with people? [cite: 98, 102]"),
+      Level2AdolescentQuestionnaireData("8", "R5", "During the past SEVEN (7) DAYS, how much do they interfere with school, your social or family life, or your job? [cite: 98, 103]"),
+    ],
+    "Substance Use": [
+      Level2AdolescentQuestionnaireData("9", "SU1", "During the past TWO (2) weeks, about how often did you have an alcoholic beverage (beer, wine, liquor, etc.)? [cite: 109, 110]"),
+      Level2AdolescentQuestionnaireData("9", "SU2", "During the past TWO (2) weeks, about how often did you have 4 or more drinks in a single day? [cite: 109, 111]"),
+      Level2AdolescentQuestionnaireData("9", "SU3", "During the past TWO (2) weeks, about how often did you smoke a cigarette, a cigar, or pipe or use snuff or chewing tobacco? [cite: 109, 112]"),
+      Level2AdolescentQuestionnaireData("9", "SU4", "During the past TWO (2) weeks, about how often did you use Painkillers (like Vicodin) ON YOUR OWN? [cite: 113, 116]"),
+      Level2AdolescentQuestionnaireData("9", "SU5", "During the past TWO (2) weeks, about how often did you use Stimulants (like Ritalin, Adderall) ON YOUR OWN? [cite: 113, 117]"),
+      Level2AdolescentQuestionnaireData("9", "SU6", "During the past TWO (2) weeks, about how often did you use Sedatives or tranquilizers (like sleeping pills or Valium) ON YOUR OWN? [cite: 113, 118]"),
+      Level2AdolescentQuestionnaireData("9", "SU7", "During the past TWO (2) weeks, about how often did you use Steroids? [cite: 119, 120]"),
+      Level2AdolescentQuestionnaireData("9", "SU8", "During the past TWO (2) weeks, about how often did you use Marijuana? [cite: 119, 122]"),
+      Level2AdolescentQuestionnaireData("9", "SU9", "During the past TWO (2) weeks, about how often did you use Cocaine or crack? [cite: 119, 123]"),
+      Level2AdolescentQuestionnaireData("9", "SU10", "During the past TWO (2) weeks, about how often did you use Club drugs (like ecstasy)? [cite: 119, 124]"),
+      Level2AdolescentQuestionnaireData("9", "SU11", "During the past TWO (2) weeks, about how often did you use Hallucinogens (like LSD)? [cite: 119, 125]"),
+      Level2AdolescentQuestionnaireData("9", "SU12", "During the past TWO (2) weeks, about how often did you use Heroin? [cite: 119, 126]"),
+      Level2AdolescentQuestionnaireData("9", "SU13", "During the past TWO (2) weeks, about how often did you use Inhalants or solvents (like glue)? [cite: 119, 127]"),
+      Level2AdolescentQuestionnaireData("9", "SU14", "During the past TWO (2) weeks, about how often did you use Methamphetamine (like speed)? [cite: 119, 128]"),
     ],
   };
 }
@@ -1391,7 +1503,7 @@ final List<DomainScore> results = await _service.submitQuestionnaire(_questions,
 
     if (mounted) {
       Navigator.of(context).push(
-        MaterialPageRoute(builder: (context) => AssessmentResultScreen(results: results)),
+        MaterialPageRoute(builder: (context) => AssessmentResultScreen(results: results,userAge: widget.userAge,)),
       );
     }
   }
@@ -1470,7 +1582,8 @@ final List<DomainScore> results = await _service.submitQuestionnaire(_questions,
 // 7. ASSESSMENT RESULT SCREEN
 class AssessmentResultScreen extends StatelessWidget {
   final List<DomainScore> results;
-  const AssessmentResultScreen({super.key, required this.results});
+  final int userAge;
+  const AssessmentResultScreen({super.key, required this.results,required this.userAge,});
 
   @override
   Widget build(BuildContext context) {
@@ -1513,7 +1626,7 @@ class AssessmentResultScreen extends StatelessWidget {
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: AppColors.secondary),
               ),
               const SizedBox(height: 15),
-              ...results.map((score) => DomainResultCard(score: score)).toList(),
+              ...results.map((score) => DomainResultCard(score: score,userAge: userAge,)).toList(),
             ] else 
               Center(
                 child: Column(
@@ -1545,8 +1658,8 @@ class AssessmentResultScreen extends StatelessWidget {
 // 8. WIDGET for Domain Result
 class DomainResultCard extends StatelessWidget {
   final DomainScore score;
-  const DomainResultCard({super.key, required this.score});
-
+  final int userAge;
+  const DomainResultCard({super.key, required this.score, required this.userAge});
   Color _getSeverityColor(int score) {
     if (score >= 3) return AppColors.danger;
     if (score == 2 || score == 1) return AppColors.warning;
@@ -1556,7 +1669,7 @@ class DomainResultCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final severityColor = _getSeverityColor(score.highestScore);
-    final isLevel2Available = score.level2Measure != 'None';
+    final isLevel2Available = score.Level2AdultMeasure != 'None';
 
     return Container(
       margin: const EdgeInsets.only(bottom: 15),
@@ -1591,18 +1704,22 @@ class DomainResultCard extends StatelessWidget {
           const SizedBox(height: 10),
           if (isLevel2Available) 
             StyledButton(
-              text: 'TAKE ${score.domain} LEVEL 2 MEASURE',
+              text: 'TAKE ${score.domainName.toUpperCase()} LEVEL 2 MEASURE',
               onPressed: () {
+                // Logic to route based on age
+                final bool isAdolescent = MockQuestionnaireService.mapAgeToQuestionnaire(userAge) == QuestionnaireType.adolescentLevel1;
+                
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) => Level2QuestionnaireScreen(domainScore: score),
+                    builder: (context) => isAdolescent 
+                        ? Level2AdolescentQuestionnaireScreen(domainScore: score)
+                        : Level2AdultQuestionnaireScreen(domainScore: score),
                   ),
                 );
               },
               color: AppColors.secondary,
-              shadowColor: AppColors.secondary.withOpacity(0.5),
             )
-          else 
+          else
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 8.0),
               child: Text(
@@ -1616,24 +1733,24 @@ class DomainResultCard extends StatelessWidget {
   }
 }
 
-// NEW SCREEN FOR LEVEL2 QUESTIONNAIRE:
-class Level2QuestionnaireScreen extends StatefulWidget {
+// NEW SCREEN FOR Level2Adult QUESTIONNAIRE:
+class Level2AdultQuestionnaireScreen extends StatefulWidget {
   final DomainScore domainScore;
-  const Level2QuestionnaireScreen({super.key, required this.domainScore});
+  const Level2AdultQuestionnaireScreen({super.key, required this.domainScore});
 
   @override
-  State<Level2QuestionnaireScreen> createState() => _Level2QuestionnaireScreenState();
+  State<Level2AdultQuestionnaireScreen> createState() => _Level2AdultQuestionnaireScreenState();
 }
 
-class _Level2QuestionnaireScreenState extends State<Level2QuestionnaireScreen> {
+class _Level2AdultQuestionnaireScreenState extends State<Level2AdultQuestionnaireScreen> {
   // Use an empty list as a default if the domain is not found
-  late final List<Level2QuestionnaireData> _questions; 
+  late final List<Level2AdultQuestionnaireData> _questions; 
   
   @override
   void initState() {
     super.initState();
     // Correctly access the Level 2 questions map using the domainName string key
-    _questions = MockQuestionnaireService._level2Questions[widget.domainScore.domainName] ?? []; 
+    _questions = MockQuestionnaireService._level2AdultQuestions[widget.domainScore.domainName] ?? []; 
     
     if (_questions.isEmpty) {
       // Show a message if no questions are found.
@@ -1666,7 +1783,7 @@ class _Level2QuestionnaireScreenState extends State<Level2QuestionnaireScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Follow-up: ${widget.domainScore.level2Measure}',
+              'Follow-up: ${widget.domainScore.Level2AdultMeasure}',
               style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: AppColors.secondary),
             ),
             const SizedBox(height: 10),
@@ -1700,7 +1817,84 @@ class _Level2QuestionnaireScreenState extends State<Level2QuestionnaireScreen> {
     );
   }
 }
+class Level2AdolescentQuestionnaireScreen extends StatefulWidget {
+  final DomainScore domainScore;
+  const Level2AdolescentQuestionnaireScreen({super.key, required this.domainScore});
 
+  @override
+  State<Level2AdolescentQuestionnaireScreen> createState() => _Level2AdolescentQuestionnaireScreenState();
+}
+
+class _Level2AdolescentQuestionnaireScreenState extends State<Level2AdolescentQuestionnaireScreen> {
+  late final List<Level2AdolescentQuestionnaireData> _questions; 
+  
+  @override
+  void initState() {
+    super.initState();
+    // Access the Adolescent Level 2 map
+    _questions = MockQuestionnaireService._level2AdolescentQuestions[widget.domainScore.domainName] ?? []; 
+    
+    if (_questions.isEmpty) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Error: No Adolescent Level 2 questions found for ${widget.domainScore.domainName}.")),
+        );
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (_questions.isEmpty) {
+      return Scaffold(
+        appBar: AppBar(title: Text('${widget.domainScore.domainName} Level 2'), backgroundColor: AppColors.secondary),
+        body: const Center(child: Text("Child Level 2 Questionnaire not available.")),
+      );
+    }
+    
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('${widget.domainScore.domainName} (Age 11-17)'),
+        backgroundColor: AppColors.secondary,
+        foregroundColor: Colors.white,
+      ),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(20.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Focused Follow-up Measure ',
+              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: AppColors.secondary),
+            ),
+            const SizedBox(height: 10),
+            const Text(
+              'Based on your previous answers, please answer how much you have been bothered by these problems in the past 7 days. [cite: 5, 22, 33, 51, 60, 98]',
+              style: TextStyle(fontSize: 16),
+            ),
+            const Divider(height: 30),
+            ..._questions.asMap().entries.map((entry) =>
+              QuestionnaireItem(data: entry.value, index: entry.key + 1)),
+            const SizedBox(height: 40),
+            Center(
+              child: StyledButton(
+                text: 'SUBMIT CHILD LEVEL 2',
+                onPressed: () {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('Submission successful for child domain: ${widget.domainScore.domainName}.')),
+                  );
+                  Navigator.of(context).pop();
+                },
+                color: AppColors.secondary,
+              ),
+            ),
+            const SizedBox(height: 50),
+          ],
+        ),
+      ),
+    );
+  }
+}
 // --- NEW WIDGETS FOR DASHBOARD ---
 
 class SentimentCalendar extends StatelessWidget {
