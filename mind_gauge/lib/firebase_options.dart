@@ -4,16 +4,6 @@ import 'package:firebase_core/firebase_core.dart' show FirebaseOptions;
 import 'package:flutter/foundation.dart'
     show defaultTargetPlatform, kIsWeb, TargetPlatform;
 
-/// Default [FirebaseOptions] for use with your Firebase apps.
-///
-/// Example:
-/// ```dart
-/// import 'firebase_options.dart';
-/// // ...
-/// await Firebase.initializeApp(
-///   options: DefaultFirebaseOptions.currentPlatform,
-/// );
-/// ```
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
@@ -25,10 +15,7 @@ class DefaultFirebaseOptions {
       case TargetPlatform.iOS:
         return ios;
       case TargetPlatform.macOS:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for macos - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return macos;
       case TargetPlatform.windows:
         return windows;
       case TargetPlatform.linux:
@@ -62,6 +49,15 @@ class DefaultFirebaseOptions {
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
+    apiKey: 'AIzaSyCTRr7oLXfosL4YtY5m_ZagS2xUVFEDfvI',
+    appId: '1:1014030563010:ios:0c5c3a15d7d7e9127a6d5b',
+    messagingSenderId: '1014030563010',
+    projectId: 'mindgauge-13cf8',
+    storageBucket: 'mindgauge-13cf8.firebasestorage.app',
+    iosBundleId: 'com.example.mindGauge',
+  );
+
+  static const FirebaseOptions macos = FirebaseOptions(
     apiKey: 'AIzaSyCTRr7oLXfosL4YtY5m_ZagS2xUVFEDfvI',
     appId: '1:1014030563010:ios:0c5c3a15d7d7e9127a6d5b',
     messagingSenderId: '1014030563010',
