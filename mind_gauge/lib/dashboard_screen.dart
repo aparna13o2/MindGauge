@@ -86,7 +86,7 @@ Widget build(BuildContext context) {
                 ClipRRect(
                   borderRadius: BorderRadius.circular(20),
                   child: Image.asset(
-                    'assets/mind_gauge_logo.jpeg',
+                    'assets/mind_gauge_logo.jpg',
                     height: 36,
                     width: 36,
                     fit: BoxFit.cover,

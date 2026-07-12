@@ -1,0 +1,6 @@
+flutter_native_splash:
+  color: "#FFFFFF"
+  image: "assets/mind_gauge_logo.jpg"
+  android: true
+  ios: true
+  web: true

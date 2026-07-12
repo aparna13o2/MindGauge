@@ -109,7 +109,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(65),
                     child: Image.asset(
-                      'assets/mind_gauge_logo.jpeg',
+                      'assets/mind_gauge_logo.jpg',
                       width: 130,
                       height: 130,
                       errorBuilder: (context, error, stackTrace) {

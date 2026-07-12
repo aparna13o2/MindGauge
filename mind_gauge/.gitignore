@@ -49,3 +49,5 @@ app.*.map.json
 /tool/service.json
 =======
 >>>>>>> 2c16d19956107aa78fc06beb9a4eeff41b68b2c3
+
+.env

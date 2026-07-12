@@ -26,7 +26,29 @@ const TextStyle kSubtitleStyle = TextStyle(
 
 // --- MAIN APP WIDGET ---
 
+class GlobalBackgroundWrapper extends StatelessWidget {
+  final Widget child;
 
+  const GlobalBackgroundWrapper({super.key, required this.child});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: const BoxDecoration(
+        color: AppColors.background,
+        image: DecorationImage(
+          image: AssetImage('assets/mind_gauge_logo.jpg'),
+          fit: BoxFit.none, // Keep original size or use scale
+          scale: 2.0, // Make it a bit smaller if it's large
+          opacity: 0.05, // Very faint watermark
+          // Multiply blends the white background of the JPEG into the AppColors.background
+          colorFilter: ColorFilter.mode(AppColors.background, BlendMode.multiply),
+        ),
+      ),
+      child: child,
+    );
+  }
+}
 
 // --- WIDGETS ---
 

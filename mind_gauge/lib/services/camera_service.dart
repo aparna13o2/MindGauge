@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:permission_handler/permission_handler.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class CameraService {
   CameraController? _controller;
@@ -19,10 +20,16 @@ class CameraService {
   final double _luminanceThreshold = 40.0; // Adjust this threshold (0-255)
   // API Endpoint Route mapping based on platform
   String get _apiBaseUrl {
+    final prodUrl = dotenv.env['PROD_API_URL'] ?? 'https://mind-gauge-api.onrender.com';
+    final localUrl = dotenv.env['LOCAL_API_URL'] ?? 'http://127.0.0.1:5000';
+
     if (kIsWeb) {
-      return 'http://127.0.0.1:5000';
+      if (kReleaseMode) {
+        return prodUrl;
+      }
+      return localUrl;
     }
-    return 'https://mind-gauge-api.onrender.com';
+    return prodUrl;
   }
 
   bool get isInitialized => _isInitialized;

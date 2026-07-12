@@ -10,6 +10,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:http/http.dart' as http;
 
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+
 // --- CONFIGURATION ---
 // Global instance of FirebaseAuth
 final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -18,6 +20,7 @@ final FirebaseAuth _auth = FirebaseAuth.instance;
 // --- SERVICE LAYER AND DATA STRUCTURES ---
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load(fileName: ".env");
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   runApp(const MindGaugeApp());
@@ -33,9 +36,12 @@ class MindGaugeApp extends StatelessWidget {
       title: 'MindGauge',
       theme: ThemeData(
         primaryColor: AppColors.primary,
-        scaffoldBackgroundColor: AppColors.background,
+        scaffoldBackgroundColor: Colors.transparent, // Let background wrapper show through
         useMaterial3: true,
       ),
+      builder: (context, child) {
+        return GlobalBackgroundWrapper(child: child!);
+      },
       home: const SplashScreen(),
     );
   }
@@ -115,7 +121,7 @@ class _SplashScreenState extends State<SplashScreen> {
             ClipRRect(
               borderRadius: BorderRadius.circular(75),
               child: Image.asset(
-                'assets/mind_gauge_logo.jpeg',
+                'assets/mind_gauge_logo.jpg',
                 width: 150,
                 height: 150,
                 errorBuilder: (context, error, stackTrace) {
@@ -170,7 +176,7 @@ class AuthScreen extends StatelessWidget {
               ClipRRect(
                 borderRadius: BorderRadius.circular(75),
                 child: Image.asset(
-                  'assets/mind_gauge_logo.jpeg',
+                  'assets/mind_gauge_logo.jpg',
                   width: 150,
                   height: 150,
                   errorBuilder: (context, error, stackTrace) {
@@ -606,8 +612,35 @@ class _RegisterScreenState extends State<RegisterScreen> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
+                const SizedBox(height: 20),
+                Center(
+                  child: ClipRRect(
+                  borderRadius: BorderRadius.circular(65),
+                  child: Image.asset(
+                    'assets/mind_gauge_logo.jpg',
+                    width: 130,
+                    height: 130,
+                    fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) {
+                      return const Icon(
+                        Icons.psychology_outlined,
+                        size: 130,
+                        color: AppColors.primary,
+                      );
+                    },
+                  ),
+                ),
+                ),
+                const SizedBox(height: 20),
                 const Center(child: Text('MINDGAUGE', style: kTitleStyle)),
-                const SizedBox(height: 30),
+                const SizedBox(height: 5),
+                const Center(
+                  child: Text(
+                    'Measure your Mental Health Status',
+                    style: kSubtitleStyle,
+                  ),
+                ),
+                const SizedBox(height: 40),
                 CustomTextField(
                   label: 'E-mail id',
                   controller: _emailController,
