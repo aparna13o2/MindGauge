@@ -20,7 +20,7 @@ class CameraService {
   final double _luminanceThreshold = 40.0; // Adjust this threshold (0-255)
   // API Endpoint Route mapping based on platform
   String get _apiBaseUrl {
-    final prodUrl = dotenv.env['PROD_API_URL'] ?? 'https://mind-gauge-api.onrender.com';
+    final prodUrl = dotenv.env['PROD_API_URL'] ?? 'https://mindgaugebackend.onrender.com';
     final localUrl = dotenv.env['LOCAL_API_URL'] ?? 'http://127.0.0.1:5000';
 
     if (kIsWeb) {

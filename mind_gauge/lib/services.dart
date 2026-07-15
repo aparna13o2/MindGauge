@@ -1386,7 +1386,7 @@ Future<String?> getMLDiagnosis(
   List<int> scores,
   int userAge,
 ) async {
-  String baseUrl = 'https://mind-gauge-api.onrender.com/predict';
+  String baseUrl = 'https://mindgaugebackend.onrender.com/predict';
   final url = Uri.parse(baseUrl);
   List<int> slicedScores;
 
@@ -1467,7 +1467,7 @@ Future<String?> getLevel2MLDiagnosis(
   List<int> scores,
   int userAge,
 ) async {
-  String baseUrl = 'https://mind-gauge-api.onrender.com/predict';
+  String baseUrl = 'https://mindgaugebackend.onrender.com/predict';
   final url = Uri.parse(baseUrl);
 
   String domainKey = domainName.toLowerCase().trim();
@@ -1511,7 +1511,7 @@ Future<String?> getLevel2MLDiagnosis(
 }
 
 Future<SentimentResult?> analyzeSentiment(String text) async {
-  String baseUrl = 'https://mind-gauge-api.onrender.com/analyze_sentiment';
+  String baseUrl = 'https://mindgaugebackend.onrender.com/analyze_sentiment';
   final url = Uri.parse(baseUrl);
 
   try {

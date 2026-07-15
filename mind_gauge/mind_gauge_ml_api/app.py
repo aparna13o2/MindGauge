@@ -6,7 +6,7 @@ import os
 
 app = Flask(__name__)
 app.config['MAX_CONTENT_LENGTH'] = 50 * 1024 * 1024  # allow 50MB uploads
-CORS(app, resources={r"/*": {"origins": ["https://mindgauge-13cf8.web.app", "https://mindgauge-13cf8.firebaseapp.com", "http://localhost:5000", "http://127.0.0.1:5000"]}})
+CORS(app, resources={r"/*": {"origins": "*"}})
 
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
