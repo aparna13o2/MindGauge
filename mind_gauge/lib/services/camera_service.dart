@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:camera/camera.dart';
 import 'package:flutter/foundation.dart';
@@ -21,15 +22,7 @@ class CameraService {
   // API Endpoint Route mapping based on platform
   String get _apiBaseUrl {
     final prodUrl = dotenv.env['PROD_API_URL'] ?? 'https://mindgaugebackend.onrender.com';
-    final localUrl = dotenv.env['LOCAL_API_URL'] ?? 'http://127.0.0.1:5000';
-
-    if (kIsWeb) {
-      if (kReleaseMode) {
-        return prodUrl;
-      }
-      return localUrl;
-    }
-    return prodUrl;
+    return prodUrl; // Always use production backend to avoid localhost connection errors on web
   }
 
   bool get isInitialized => _isInitialized;
@@ -73,38 +66,42 @@ class CameraService {
     }
   }
 
-  // --- Lighting Check Methods ---
-  void startLightingCheckStream() {
-    if (!_isInitialized || _controller == null || _isLightingStreamActive)
-      return;
+  // --- Web Analysis Methods ---
+  Timer? _analysisTimer;
+  bool _isProcessing = false;
 
-    try {
-      _isLightingStreamActive = true;
-      _controller!.startImageStream((CameraImage image) {
-        _frameCount++;
-        if (_frameCount % _lightingCheckInterval == 0) {
-          _checkLuminance(image);
+  void startWebAnalysis(Function(Map<String, dynamic>)? onAnalysisResult) {
+    if (!_isInitialized || _controller == null) return;
+    
+    // Take a snapshot every 3 seconds instead of streaming continuous frames
+    _analysisTimer = Timer.periodic(const Duration(seconds: 3), (timer) async {
+      if (_isProcessing || !_controller!.value.isInitialized) return;
+
+      try {
+        _isProcessing = true;
+        
+        // 1. Take a snapshot (Works perfectly on Web!)
+        if (_controller!.value.isTakingPicture) return;
+        final XFile file = await _controller!.takePicture();
+        
+        // 2 & 3. Send to your live Render backend
+        final result = await analyzeExpression(file);
+        if (result != null && onAnalysisResult != null) {
+          onAnalysisResult(result);
         }
-      });
-      print("Lighting check stream started");
-    } catch (e) {
-      print("Error starting image stream for lighting: $e");
-      _isLightingStreamActive = false;
-    }
+      } catch (e) {
+        print("Error during snapshot analysis: $e");
+      } finally {
+        _isProcessing = false;
+      }
+    });
+    print("Web analysis timer started");
   }
 
-  Future<void> stopLightingCheckStream() async {
-    if (!_isInitialized || _controller == null || !_isLightingStreamActive)
-      return;
-
-    try {
-      await _controller!.stopImageStream();
-      _isLightingStreamActive = false;
-      print("Lighting check stream stopped");
-    } catch (e) {
-      // It might throw if already stopped or taking a picture, catch it safely
-      print("Error stopping image stream: $e");
-    }
+  void stopWebAnalysis() {
+    _analysisTimer?.cancel();
+    _analysisTimer = null;
+    print("Web analysis timer stopped");
   }
 
   void _checkLuminance(CameraImage image) {
@@ -145,18 +142,7 @@ class CameraService {
     try {
       if (_controller!.value.isTakingPicture) return null; // Prevent overlap
 
-      // Note: On many platforms, you cannot capture a picture while the image stream is active.
-      // We must briefly stop the stream, capture, and then restart it.
-      bool wasStreaming = _isLightingStreamActive;
-      if (wasStreaming) {
-        await stopLightingCheckStream();
-      }
-
       XFile image = await _controller!.takePicture();
-
-      if (wasStreaming) {
-        startLightingCheckStream();
-      }
 
       return image;
     } catch (e) {

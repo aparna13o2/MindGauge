@@ -40,14 +40,23 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
     await _cameraService.initialize();
     if (mounted) {
       setState(() {});
-      // Start checking lighting right after camera is initialized.
-      _cameraService.startLightingCheckStream();
+      // Start web analysis right after camera is initialized.
+      _cameraService.startWebAnalysis((result) {
+        if (mounted) {
+          setState(() {
+            _currentEmotion =
+                "${result['dominant_emotion']} (${(result['score'] * 100).toStringAsFixed(1)}%)";
+          });
+          print("Detected Emotion from timer: $_currentEmotion");
+          _expressionHistory.add(result);
+        }
+      });
     }
   }
 
   @override
   void dispose() {
-    _cameraService.stopLightingCheckStream();
+    _cameraService.stopWebAnalysis();
     _cameraService.dispose();
     super.dispose();
   }
@@ -177,7 +186,7 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
     if (!mounted) return;
 
     // 8. Turn off the camera completely
-    await _cameraService.stopLightingCheckStream();
+    _cameraService.stopWebAnalysis();
     await _cameraService.dispose();
 
     // 9. Navigate to Results
