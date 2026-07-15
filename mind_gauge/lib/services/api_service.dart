@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 
 class ApiService {
 
+  static const String apiKey = "mindgauge-secure-api-key-2024";
   static String baseUrl =
        "http://localhost:5000";
 
@@ -11,7 +12,10 @@ class ApiService {
   Future<Map<String, dynamic>?> login(String email, String password) async {
     final response = await http.post(
       Uri.parse("$baseUrl/login"),
-      headers: {"Content-Type": "application/json"},
+      headers: {
+        "Content-Type": "application/json",
+        "x-api-key": apiKey,
+      },
       body: jsonEncode({
         "email": email,
         "password": password,
@@ -30,7 +34,10 @@ class ApiService {
 
     final response = await http.post(
       Uri.parse("$baseUrl/register"),
-      headers: {"Content-Type": "application/json"},
+      headers: {
+        "Content-Type": "application/json",
+        "x-api-key": apiKey,
+      },
       body: jsonEncode({
          "name": name,
          "email": email,

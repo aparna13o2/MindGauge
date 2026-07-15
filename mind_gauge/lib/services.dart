@@ -1490,7 +1490,10 @@ Future<String?> getLevel2MLDiagnosis(
 
     final response = await http.post(
       url,
-      headers: {"Content-Type": "application/json"},
+      headers: {
+        "Content-Type": "application/json",
+        "x-api-key": "mindgauge-secure-api-key-2024"
+      },
       body: body,
     );
 
@@ -1516,7 +1519,10 @@ Future<SentimentResult?> analyzeSentiment(String text) async {
 
     final response = await http.post(
       url,
-      headers: {"Content-Type": "application/json"},
+      headers: {
+        "Content-Type": "application/json",
+        "x-api-key": "mindgauge-secure-api-key-2024"
+      },
       body: body,
     );
 

@@ -6,7 +6,28 @@ import os
 
 app = Flask(__name__)
 app.config['MAX_CONTENT_LENGTH'] = 50 * 1024 * 1024  # allow 50MB uploads
-CORS(app) 
+CORS(app, resources={r"/*": {"origins": ["https://mindgauge-13cf8.web.app", "https://mindgauge-13cf8.firebaseapp.com", "http://localhost:5000", "http://127.0.0.1:5000"]}})
+
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
+
+limiter = Limiter(
+    get_remote_address,
+    app=app,
+    default_limits=["200 per day", "50 per hour"],
+    storage_uri="memory://"
+)
+
+API_SECRET_KEY = os.environ.get('API_SECRET_KEY', 'mindgauge-secure-api-key-2024')
+
+@app.before_request
+def check_api_key():
+    if request.method == "OPTIONS":
+        return
+    if request.path == '/test':
+        return
+    if request.headers.get("x-api-key") != API_SECRET_KEY:
+        return jsonify({"error": "Unauthorized"}), 401
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -378,6 +399,7 @@ def process_single_frame(img):
 import tempfile
 
 @app.route('/analyze_video', methods=['POST'])
+@limiter.limit("5 per minute")
 def analyze_video():
     """Processes a 5-10s video and returns aggregated visual sentiment."""
     try:

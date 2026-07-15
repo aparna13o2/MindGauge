@@ -192,7 +192,10 @@ class CameraService {
       final response = await http
           .post(
             Uri.parse('$_apiBaseUrl/analyze_face'),
-            headers: {'Content-Type': 'application/json'},
+            headers: {
+              'Content-Type': 'application/json',
+              'x-api-key': 'mindgauge-secure-api-key-2024'
+            },
             body: jsonEncode({'image': base64Image}),
           )
           .timeout(const Duration(seconds: 15));
@@ -245,7 +248,10 @@ class CameraService {
       final response = await http
           .post(
             Uri.parse('$_apiBaseUrl/analyze_video'),
-            headers: {'Content-Type': 'application/json'},
+            headers: {
+              'Content-Type': 'application/json',
+              'x-api-key': 'mindgauge-secure-api-key-2024'
+            },
             body: jsonEncode({'video': base64Video}),
           )
           .timeout(
@@ -274,7 +280,10 @@ class CameraService {
       final response = await http
           .post(
             Uri.parse('$_apiBaseUrl/combined_report'),
-            headers: {'Content-Type': 'application/json'},
+            headers: {
+              'Content-Type': 'application/json',
+              'x-api-key': 'mindgauge-secure-api-key-2024'
+            },
             body: jsonEncode({
               'questionnaire_results': questionnaireResults,
               'visual_sentiment': visualSentiment,
